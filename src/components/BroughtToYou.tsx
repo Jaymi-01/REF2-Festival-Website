@@ -1,21 +1,12 @@
 "use client";
 
-import Image from "next/image";
 import { useRef } from "react";
-import { motion, useInView, useScroll, useTransform } from "motion/react";
+import { motion, useInView } from "motion/react";
 import { useReducedMotion } from "@/lib/useReducedMotion";
 
 export default function BroughtToYou() {
-  const ref = useRef<HTMLElement>(null);
-  const reduced = useReducedMotion();
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ["start end", "end start"],
-  });
-  const badgeRot = useTransform(scrollYProgress, [0, 1], [-40, reduced ? -40 : 40]);
-
   return (
-    <section ref={ref} className="relative px-5 py-16 sm:py-24 lg:px-10">
+    <section className="relative px-5 py-16 sm:py-24 lg:px-10">
       <div className="mx-auto grid max-w-[1250px] items-center gap-10 lg:grid-cols-[0.95fr_1.05fr] lg:gap-16">
         {/* ---- Wordmark lockup, rebuilt as live type ---- */}
         <motion.div
@@ -57,19 +48,6 @@ export default function BroughtToYou() {
               </motion.span>
             </h2>
 
-            {/* the badge sits over the wordmark, spinning as you scroll */}
-            <motion.div
-              style={{ rotate: badgeRot }}
-              className="pointer-events-none absolute left-[46%] top-[14%] w-[clamp(60px,13vw,120px)] -translate-x-1/2"
-            >
-              <Image
-                src="/brand/supreme-badge.webp"
-                alt=""
-                width={200}
-                height={200}
-                className="h-auto w-full drop-shadow-lg"
-              />
-            </motion.div>
           </div>
         </motion.div>
 
