@@ -43,6 +43,7 @@ function ActivityCard({ activity, index }: { activity: Activity; index: number }
   const reduced = useReducedMotion();
   const ref = useRef<HTMLDivElement>(null);
   const [revealed, setRevealed] = useState(false);
+  const [imageLoaded, setImageLoaded] = useState(false);
 
   // Pointer-follow tilt
   const mx = useMotionValue(0);
@@ -100,12 +101,25 @@ function ActivityCard({ activity, index }: { activity: Activity; index: number }
         >
           <div className="overflow-hidden rounded-[22px] border-[5px] border-cream bg-cream shadow-[0_14px_30px_rgba(0,0,0,0.28)]">
             <div className="relative aspect-[4/3] overflow-hidden bg-ink/10">
+              {!imageLoaded && (
+                <span
+                  aria-hidden="true"
+                  className="absolute inset-0 animate-pulse bg-cream/20"
+                />
+              )}
               <Image
                 src={activity.photo}
                 alt={`${activity.title} at the last Real Essence Festival`}
                 fill
                 sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                className="object-cover transition-transform duration-500 ease-[cubic-bezier(0.2,0,0,1)] group-hover:scale-110"
+                loading="lazy"
+                onLoad={() => setImageLoaded(true)}
+                onError={() => setImageLoaded(true)}
+                className={
+                  imageLoaded
+                    ? "object-cover opacity-100 transition-[opacity,transform] duration-500 ease-[cubic-bezier(0.2,0,0,1)] group-hover:scale-110"
+                    : "object-cover opacity-0 transition-[opacity,transform] duration-500 ease-[cubic-bezier(0.2,0,0,1)] group-hover:scale-110"
+                }
               />
 
               {/* reveal panel — the mockup's on-hover copy */}

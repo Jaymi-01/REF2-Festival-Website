@@ -86,6 +86,10 @@ export default function Gallery() {
                 {/* These tiles are the only way into the lightbox now, so each
                     one needs a name a screen reader can announce. */}
                 <span className="sr-only">{`Real Essence Festival — ${p.cat}`}</span>
+                <span
+                  aria-hidden="true"
+                  className="absolute inset-0 animate-pulse bg-cream/20"
+                />
                 <Image
                   src={p.src}
                   alt=""
