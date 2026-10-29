@@ -29,11 +29,15 @@ const SITE = "https://realessencefestival.ng";
 export const metadata: Metadata = {
   metadataBase: new URL(SITE),
   title: {
-    default: "Real Essence Festival 2.0 — 7–8 November 2026, Ikeja City Mall",
+    default: "Real Essence Festival 2.0",
     template: "%s · Real Essence Festival 2.0",
   },
   description:
     "Two days of Delicious Sedaap Supreme Noodles, great music, cool games and unforgettable vibes. Brought to you by Sedaap Supreme Noodles. Free entry — register now.",
+  icons: {
+    icon: [{ url: "/brand/festival-logo.webp", type: "image/webp" }],
+    shortcut: "/brand/festival-logo.webp",
+  },
   keywords: [
     "Real Essence Festival",
     "Supreme Noodles",
