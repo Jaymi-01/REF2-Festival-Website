@@ -110,7 +110,7 @@ export default function Hero() {
           initial={{ opacity: 0, y: 36, rotate: 1.5 }}
           animate={{ opacity: 1, y: 0, rotate: 0 }}
           transition={{ type: "spring", stiffness: 90, damping: 16, delay: 0.3 }}
-          className="relative z-10"
+          className="relative z-10 flex justify-center"
         >
           <RegisterForm />
         </motion.div>
