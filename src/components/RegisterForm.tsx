@@ -95,6 +95,7 @@ export default function RegisterForm() {
   const [serverMsg, setServerMsg] = useState("");
   const [ticket, setTicket] = useState<string>("");      // raw, for the QR URL
   const [ticketLabel, setTicketLabel] = useState<string>(""); // pretty, for reading out
+  const [emailSent, setEmailSent] = useState(false);
   const [returning, setReturning] = useState(false);
   const cardRef = useRef<HTMLDivElement>(null);
 
@@ -130,6 +131,7 @@ export default function RegisterForm() {
         const demo = demoTicket();
         setTicket("");
         setTicketLabel(demo);
+        setEmailSent(false);
         setStatus("success");
         requestAnimationFrame(() =>
           cardRef.current?.scrollIntoView({
@@ -161,6 +163,7 @@ export default function RegisterForm() {
 
       setTicket(data.ticket);
       setTicketLabel(data.ticketDisplay ?? data.ticket);
+      setEmailSent(Boolean(data.emailSent));
       setReturning(Boolean(data.alreadyRegistered));
       setStatus("success");
 
@@ -238,6 +241,7 @@ export default function RegisterForm() {
               ticketLabel={ticketLabel}
               name={values.fullName}
               returning={returning}
+              emailSent={emailSent}
             />
           ) : (
             <motion.div
@@ -356,11 +360,13 @@ function SuccessPanel({
   ticketLabel,
   name,
   returning,
+  emailSent,
 }: {
   ticket: string;
   ticketLabel: string;
   name: string;
   returning: boolean;
+  emailSent: boolean;
 }) {
   return (
     <motion.div
@@ -386,7 +392,9 @@ function SuccessPanel({
       <p className="mx-auto mt-2 max-w-[34ch] text-pretty text-[15px] font-semibold leading-relaxed text-ink/80">
         {returning
           ? "We already had you on the list — here's the same ticket again."
-          : "Save the date — 7–8 November 2026 at Ikeja City Mall, from 9am. Check your inbox for the details."}
+          : emailSent
+            ? "Save the date — 7–8 November 2026 at Ikeja City Mall, from 9am. Check your inbox for the details."
+            : "Save the date — 7–8 November 2026 at Ikeja City Mall, from 9am. Your ticket is ready below."}
       </p>
       {STATIC_DEMO && (
         <p className="mx-auto mt-2 max-w-[36ch] text-[12px] font-bold uppercase tracking-wide text-red/80">

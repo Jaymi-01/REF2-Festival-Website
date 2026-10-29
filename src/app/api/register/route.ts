@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { supabase, supabaseConfigured, type Registration } from "@/lib/supabase";
 import { generateTicket, formatTicket } from "@/lib/ticket";
+import { sendConfirmationEmail } from "@/lib/email";
 
 /* ===========================================================================
  * REGISTRATION
@@ -107,6 +108,7 @@ export async function POST(request: Request) {
         alreadyRegistered: true,
         ticket: existing.ticket,
         ticketDisplay: formatTicket(existing.ticket),
+        emailSent: false,
       },
       { status: 200 },
     );
@@ -145,6 +147,7 @@ export async function POST(request: Request) {
             alreadyRegistered: true,
             ticket: raced.ticket,
             ticketDisplay: formatTicket(raced.ticket),
+            emailSent: false,
           },
           { status: 200 },
         );
@@ -165,11 +168,11 @@ export async function POST(request: Request) {
   }
 
   /* -------------------------------------------------------------------------
-   * ⚠️  CONFIRMATION EMAIL IS NOT SENT FROM HERE.
+   * Confirmation emails are sent after the registration is safely saved.
    *
    * The template is built and tested in src/emails/confirmation.ts and you can
-   * see it at /api/email/preview. Wiring a sender was deliberately left out —
-   * drop your provider in here:
+   * The template is built and tested in src/emails/confirmation.ts and can be
+   * previewed at /api/email/preview.
    *
    *   import { renderConfirmationEmail, renderConfirmationText,
    *            CONFIRMATION_SUBJECT } from "@/emails/confirmation";
@@ -189,11 +192,28 @@ export async function POST(request: Request) {
    * up this response — the registrant already has their ticket on screen.
    * ---------------------------------------------------------------------- */
 
+  // Send after the ticket is saved. A provider outage must not discard a
+  // valid registration, so the helper returns false instead of throwing.
+  let emailSent = false;
+  try {
+    const origin = new URL(request.url).origin;
+    emailSent = await sendConfirmationEmail({
+      firstName,
+      email,
+      ticket: saved.ticket,
+      qrUrl: origin + "/api/ticket/" + saved.ticket + "/qr.png",
+      siteUrl: origin,
+    });
+  } catch (error) {
+    console.error("[register] confirmation email failed:", error);
+  }
+
   return NextResponse.json(
     {
       ok: true,
       ticket: saved.ticket,
       ticketDisplay: formatTicket(saved.ticket),
+      emailSent,
     },
     { status: 201 },
   );
