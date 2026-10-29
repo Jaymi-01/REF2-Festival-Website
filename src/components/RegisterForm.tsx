@@ -248,6 +248,7 @@ export default function RegisterForm() {
               key="form"
               exit={{ opacity: 0, y: -12, filter: "blur(4px)" }}
               transition={{ duration: 0.15, ease: [0.2, 0, 0, 1] }}
+              className="relative -left-3 mx-auto w-[90%] max-w-[370px]"
             >
               <h2 className="font-display text-center text-[clamp(2rem,5vw,2.9rem)] text-red">
                 Register Now!
