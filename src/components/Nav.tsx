@@ -56,9 +56,6 @@ export default function Nav() {
             height={44}
             className="h-10 w-10 drop-shadow-md"
           />
-          <span className="font-display hidden text-lg leading-none text-cream sm:block">
-            REF&nbsp;2.0
-          </span>
         </a>
 
         <ul className="hidden items-center gap-7 md:flex">
