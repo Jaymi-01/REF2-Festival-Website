@@ -89,12 +89,32 @@ export default function Nav() {
             onClick={() => setOpen((v) => !v)}
             aria-expanded={open}
             aria-controls="mobile-menu"
-            className="grid h-11 w-11 place-items-center rounded-full bg-cream/15 text-cream md:hidden"
+            className="grid h-11 w-11 place-items-center text-cream transition-colors duration-150 hover:text-yellow-deep md:hidden"
           >
             <span className="sr-only">{open ? "Close menu" : "Open menu"}</span>
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" aria-hidden="true">
-              {open ? <path d="M18 6 6 18M6 6l12 12" /> : <path d="M3 7h18M3 12h18M3 17h18" />}
-            </svg>
+            <motion.svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2.5"
+              strokeLinecap="round"
+              aria-hidden="true"
+            >
+              <motion.line
+                animate={open ? { x1: 5, y1: 5, x2: 19, y2: 19 } : { x1: 3, y1: 7, x2: 21, y2: 7 }}
+                transition={{ duration: 0.2, ease: "easeInOut" }}
+              />
+              <motion.line
+                animate={open ? { opacity: 0 } : { opacity: 1, x1: 3, y1: 12, x2: 21, y2: 12 }}
+                transition={{ duration: 0.15, ease: "easeInOut" }}
+              />
+              <motion.line
+                animate={open ? { x1: 5, y1: 19, x2: 19, y2: 5 } : { x1: 3, y1: 17, x2: 21, y2: 17 }}
+                transition={{ duration: 0.2, ease: "easeInOut" }}
+              />
+            </motion.svg>
           </button>
         </div>
       </nav>
@@ -103,19 +123,24 @@ export default function Nav() {
         {open && (
           <motion.div
             id="mobile-menu"
-            initial={{ opacity: 0, y: -12 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -12 }}
-            transition={{ duration: 0.2, ease: [0.2, 0, 0, 1] }}
-            className="absolute inset-x-0 top-[var(--nav-h)] origin-top border-t-4 border-yellow-deep bg-red px-5 py-6 shadow-2xl md:hidden"
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.28, ease: [0.2, 0, 0, 1] }}
+            className="absolute inset-x-0 top-[var(--nav-h)] origin-top overflow-hidden border-t border-yellow-deep/60 bg-red px-5 pb-5 pt-3 shadow-2xl md:hidden"
           >
-            <ul className="space-y-1">
+            <ul className="space-y-0">
               {[...LINKS, { href: "#register", label: "Register free" }].map((l) => (
-                <li key={l.href}>
+                <li key={l.href} className={l.href === "#register" ? "pt-3" : "border-b border-cream/15"}>
                   <a
                     href={l.href}
                     onClick={() => setOpen(false)}
-                    className="block rounded-xl px-4 py-3 font-display text-2xl text-cream transition-colors duration-150 hover:bg-cream/10 hover:text-yellow-deep"
+                    className={cn(
+                      "block px-2 py-3.5 text-base font-extrabold uppercase tracking-wide transition-colors duration-150",
+                      l.href === "#register"
+                        ? "rounded-full bg-yellow-deep text-center text-ink hover:bg-yellow"
+                        : "text-cream/90 hover:text-yellow-deep",
+                    )}
                   >
                     {l.label}
                   </a>
