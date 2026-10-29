@@ -1,0 +1,70 @@
+{
+ "guests": [
+  {
+   "t": "DEM01111",
+   "n": "Ada O.",
+   "in": false
+  },
+  {
+   "t": "DEM02222",
+   "n": "Chidi E.",
+   "in": false
+  },
+  {
+   "t": "DEM03333",
+   "n": "Ngozi B.",
+   "in": true
+  },
+  {
+   "t": "DEM04444",
+   "n": "Tunde A.",
+   "in": false
+  }
+ ],
+ "cards": [
+  {
+   "t": "DEM01111",
+   "n": "Ada O.",
+   "in": false,
+   "note": "Valid — should be let in",
+   "payload": "REF2.DEM01111.253PZePXhzsp3WeiPkmWgaAvoOFMSzdOGgAzXpqYibzhkeON6UT3hZiTvGrCam9cF5vxySTQvOrITZUPxDtnDg",
+   "file": "DEM01111.png"
+  },
+  {
+   "t": "DEM02222",
+   "n": "Chidi E.",
+   "in": false,
+   "note": "Valid — should be let in",
+   "payload": "REF2.DEM02222.MkvKl1KgdRtIGjPFUZkjz2yH8OxpeF3tbF7ygotpWNRDw9ikWV-mLC3IKIQkeECyLU1eUNjQ2lykw-CagTA6Dg",
+   "file": "DEM02222.png"
+  },
+  {
+   "t": "DEM03333",
+   "n": "Ngozi B.",
+   "in": true,
+   "note": "Already walked in — refuse",
+   "payload": "REF2.DEM03333.2htsn2vHC3AldBy591cIWqYMQcdV7uP8aLSqcrhH2JA58zt_Xd-PSy6iuS3eIYsdc5KtwRmWtt-eztW8ZZSgCA",
+   "file": "DEM03333.png"
+  },
+  {
+   "t": "DEM04444",
+   "n": "Tunde A.",
+   "in": false,
+   "note": "Valid — should be let in",
+   "payload": "REF2.DEM04444.UroIZK-6BlQBxH5OE6TpdCNM4Hb9JfyQyAu83rBBgyeIpK_r8y1Le_1J-6U22rMzgzGKZvAUr0U4SB1q4JYOAQ",
+   "file": "DEM04444.png"
+  },
+  {
+   "t": "DEM09999",
+   "note": "Signed but not on the list",
+   "payload": "REF2.DEM09999.1nYXWpoMrFs95l3jYCd_7ALbATx0NURa1N_JVPmnFT33C8bcwQRc8OW8qfotcV7ykpqWaeYxYLTo8gTyaBMcAQ",
+   "file": "DEM09999.png"
+  },
+  {
+   "t": "FORGED",
+   "note": "Forged signature",
+   "payload": "REF2.DEM02222.BwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBw",
+   "file": "FORGED.png"
+  }
+ ]
+}
