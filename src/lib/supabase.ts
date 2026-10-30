@@ -40,14 +40,4 @@ export type Registration = {
   email: string;
   phone: string;
   created_at: string;
-  checked_in_at: string | null;
-  checked_in_by: string | null;
-  scan_count: number;
-};
-
-export type AdmitResult = {
-  result: "admitted" | "duplicate" | "unknown" | "bad_signature";
-  first_name: string | null;
-  last_name: string | null;
-  checked_in_at: string | null;
 };
