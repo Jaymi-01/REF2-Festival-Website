@@ -1,14 +1,18 @@
 "use client";
 
+import Image from "next/image";
 import { motion } from "motion/react";
 
 /**
- * The mockup draws six black placeholder tiles labelled Artiste / DJ / MC /
- * Guest ×3 — the lineup genuinely isn't announced. Rather than invent names,
- * this renders an honest "to be announced" state that still feels alive.
+ * The lineup cards stay flexible while confirmed performers can be added with
+ * their supplied artwork and name.
  */
 const SLOTS = [
-  { role: "Artiste", hint: "Headline act" },
+  {
+    role: "Music Performance - Rybeena",
+    hint: "Live performance",
+    image: "/line-ups/Rybeena.jpeg",
+  },
   { role: "DJ", hint: "Decks all day" },
   { role: "MC", hint: "Keeping it moving" },
   { role: "Guest", hint: "Surprise drop-in" },
@@ -54,42 +58,57 @@ export default function Lineup() {
                 className="group relative overflow-hidden rounded-[20px] border-[3px] border-cream/25 bg-ink/45"
               >
                 <div className="relative grid aspect-[5/4] place-items-center overflow-hidden">
-                  {/* animated "static" so the empty slot reads as intentional */}
-                  <div
-                    aria-hidden="true"
-                    className="absolute inset-0 opacity-[0.07] transition-opacity duration-300 group-hover:opacity-[0.16]"
-                    style={{
-                      backgroundImage:
-                        "repeating-linear-gradient(135deg, #fff9ec 0 2px, transparent 2px 9px)",
-                    }}
-                  />
-                  <div className="relative text-center">
-                    <motion.span
-                      aria-hidden="true"
-                      className="block text-[clamp(2rem,6vw,3.4rem)]"
-                      animate={{ rotate: [0, -8, 8, 0] }}
-                      transition={{
-                        duration: 4,
-                        repeat: Infinity,
-                        repeatDelay: i * 0.6,
-                        ease: "easeInOut",
-                      }}
-                    >
-                      ?
-                    </motion.span>
-                    <span className="mt-1 block text-[11px] font-extrabold uppercase tracking-[0.18em] text-cream/55">
-                      {s.hint}
-                    </span>
-                  </div>
+                  {s.image ? (
+                    <Image
+                      src={s.image}
+                      alt={`${s.role} at Real Essence Festival 2.0`}
+                      fill
+                      sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, 25vw"
+                      loading="lazy"
+                      className="object-cover object-top transition-transform duration-500 group-hover:scale-105"
+                    />
+                  ) : (
+                    <>
+                      {/* Animated static keeps an unannounced slot intentional. */}
+                      <div
+                        aria-hidden="true"
+                        className="absolute inset-0 opacity-[0.07] transition-opacity duration-300 group-hover:opacity-[0.16]"
+                        style={{
+                          backgroundImage:
+                            "repeating-linear-gradient(135deg, #fff9ec 0 2px, transparent 2px 9px)",
+                        }}
+                      />
+                      <div className="relative text-center">
+                        <motion.span
+                          aria-hidden="true"
+                          className="block text-[clamp(2rem,6vw,3.4rem)]"
+                          animate={{ rotate: [0, -8, 8, 0] }}
+                          transition={{
+                            duration: 4,
+                            repeat: Infinity,
+                            repeatDelay: i * 0.6,
+                            ease: "easeInOut",
+                          }}
+                        >
+                          ?
+                        </motion.span>
+                        <span className="mt-1 block text-[11px] font-extrabold uppercase tracking-[0.18em] text-cream/55">
+                          {s.hint}
+                        </span>
+                      </div>
+                    </>
+                  )}
                 </div>
 
                 <div className="flex items-center justify-between gap-2 border-t-[3px] border-cream/25 px-4 py-3">
-                  <h3 className="font-display text-[clamp(1.1rem,2.6vw,1.8rem)] text-cream">
+                  <h3 className="min-w-0 font-display text-[clamp(0.85rem,2vw,1.35rem)] leading-tight text-cream">
                     {s.role}
                   </h3>
-                  <span className="rounded-full bg-yellow-deep/90 px-2.5 py-1 text-[10px] font-extrabold uppercase tracking-wider text-ink">
-                    TBA
-                  </span>
+                  {!s.image && (
+                    <span className="rounded-full bg-yellow-deep/90 px-2.5 py-1 text-[10px] font-extrabold uppercase tracking-wider text-ink">
+                      TBA
+                    </span>
+                  )}
                 </div>
               </motion.div>
             </motion.li>
