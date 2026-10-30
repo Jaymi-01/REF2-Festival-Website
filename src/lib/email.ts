@@ -8,7 +8,6 @@ type ConfirmationEmail = {
   firstName: string;
   email: string;
   ticket: string;
-  qrUrl: string;
   siteUrl: string;
 };
 
