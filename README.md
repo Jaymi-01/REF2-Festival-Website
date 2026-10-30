@@ -20,7 +20,7 @@ Create `.env.local` with the server-side values below:
 SUPABASE_URL=https://your-project.supabase.co
 SUPABASE_SERVICE_ROLE_KEY=your-server-only-key
 RESEND_API_KEY=your-resend-api-key
-EMAIL_FROM=Real Essence Festival <tickets@your-domain.com>
+EMAIL_FROM=Real Essence Festival <hello@your-domain.com>
 ```
 
 The Supabase service-role key and Resend API key must never be exposed as
@@ -32,9 +32,9 @@ Run [`supabase/schema.sql`](supabase/schema.sql) in the Supabase SQL editor.
 It creates the registrations table and removes the retired gate check-in
 objects from earlier versions of the project.
 
-The registration endpoint stores a human-readable ticket reference and sends a
-confirmation email when Resend is configured. Re-registering the same email
-returns the existing registration instead of creating a duplicate.
+The registration endpoint stores attendee details and sends a confirmation
+email when Resend is configured. Re-registering the same email returns the
+existing registration instead of creating a duplicate.
 
 ## Useful commands
 
