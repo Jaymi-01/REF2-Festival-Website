@@ -6,21 +6,44 @@ import { AnimatePresence, motion } from "motion/react";
 import { cn } from "@/lib/utils";
 
 const LINKS = [
-  { href: "#activities", label: "What's On" },
-  { href: "#lineup", label: "Line-up" },
-  { href: "#gallery", label: "Last Year" },
-  { href: "#story", label: "The Brand" },
+  { href: "#activities", label: "The Experience" },
+  { href: "#lineup", label: "Who’s Playing" },
+  { href: "#gallery", label: "Festival Moments" },
+  { href: "#story", label: "Sedaap Story" },
 ];
 
 export default function Nav() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState(LINKS[0].href.slice(1));
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  // Keep the navigation state aligned with the section currently under the
+  // visitor's reading position rather than relying on the URL hash.
+  useEffect(() => {
+    const sections = LINKS.map((link) => document.getElementById(link.href.slice(1))).filter(
+      (section): section is HTMLElement => Boolean(section),
+    );
+    if (!sections.length) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visible = entries
+          .filter((entry) => entry.isIntersecting)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
+        if (visible[0]) setActiveSection(visible[0].target.id);
+      },
+      { rootMargin: "-72px 0px -55% 0px", threshold: [0.1, 0.35, 0.6] },
+    );
+
+    sections.forEach((section) => observer.observe(section));
+    return () => observer.disconnect();
   }, []);
 
   // Close the sheet on Escape, and lock the page behind it.
@@ -63,7 +86,13 @@ export default function Nav() {
             <li key={l.href}>
               <a
                 href={l.href}
-                className="relative text-sm font-bold uppercase tracking-wide text-cream/90 transition-colors duration-150 hover:text-yellow-deep after:absolute after:-bottom-1.5 after:left-0 after:h-[3px] after:w-0 after:rounded-full after:bg-yellow-deep after:transition-[width] after:duration-200 hover:after:w-full"
+                aria-current={activeSection === l.href.slice(1) ? "page" : undefined}
+                className={cn(
+                  "relative text-sm font-bold uppercase tracking-wide transition-colors duration-150 after:absolute after:-bottom-1.5 after:left-0 after:h-[3px] after:rounded-full after:bg-yellow-deep after:transition-[width] after:duration-200 hover:text-yellow-deep",
+                  activeSection === l.href.slice(1)
+                    ? "text-yellow-deep after:w-full"
+                    : "text-cream/90 after:w-0 hover:after:w-full",
+                )}
               >
                 {l.label}
               </a>
@@ -132,11 +161,14 @@ export default function Nav() {
                   <a
                     href={l.href}
                     onClick={() => setOpen(false)}
+                    aria-current={activeSection === l.href.slice(1) ? "page" : undefined}
                     className={cn(
                       "block px-2 py-3.5 text-base font-extrabold uppercase tracking-wide transition-colors duration-150",
                       l.href === "#register"
                         ? "rounded-full bg-yellow-deep text-center text-ink hover:bg-yellow"
-                        : "text-cream/90 hover:text-yellow-deep",
+                        : activeSection === l.href.slice(1)
+                          ? "bg-cream/10 text-yellow-deep"
+                          : "text-cream/90 hover:text-yellow-deep",
                     )}
                   >
                     {l.label}
