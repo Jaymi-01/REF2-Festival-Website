@@ -7,7 +7,6 @@ import {
 type ConfirmationEmail = {
   firstName: string;
   email: string;
-  siteUrl: string;
 };
 
 /**
