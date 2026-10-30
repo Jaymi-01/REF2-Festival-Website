@@ -9,13 +9,13 @@ drop function if exists admit(text, text, uuid, timestamptz);
 drop table if exists scans;
 
 alter table if exists registrations
+  drop column if exists ticket,
   drop column if exists checked_in_at,
   drop column if exists checked_in_by,
   drop column if exists scan_count;
 
 create table if not exists registrations (
   id         uuid primary key default gen_random_uuid(),
-  ticket     text not null unique,
   first_name text not null,
   last_name  text not null,
   email      text not null,
