@@ -6,7 +6,7 @@ import { renderConfirmationEmail, renderConfirmationText } from "@/emails/confir
  *
  *   /api/email/preview                     → the HTML
  *   /api/email/preview?format=text         → the plain-text part
- *   /api/email/preview?name=Ada&ticket=... → different sample data
+ *   /api/email/preview?name=Ada → different sample data
  *
  * Disabled in production so the template isn't a public endpoint.
  */
@@ -18,7 +18,6 @@ export async function GET(request: Request) {
   const url = new URL(request.url);
   const data = {
     firstName: url.searchParams.get("name") ?? "Ada",
-    ticket: (url.searchParams.get("ticket") ?? "A7K2M9XP").toUpperCase(),
     siteUrl: url.origin,
   };
 
