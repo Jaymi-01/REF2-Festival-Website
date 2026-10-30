@@ -15,7 +15,11 @@ const SLOTS = [
   },
   { role: "DJ", hint: "Decks all day" },
   { role: "MC", hint: "Keeping it moving" },
-  { role: "Guest", hint: "Surprise drop-in" },
+  {
+    role: "Music Performance - T. I. Blaze",
+    hint: "Live performance",
+    image: "/line-ups/T. I. Blaze.PNG",
+  },
   { role: "Guest", hint: "Surprise drop-in" },
   { role: "Guest", hint: "Surprise drop-in" },
 ];
