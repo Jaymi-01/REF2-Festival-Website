@@ -45,7 +45,13 @@ export default function SmoothScroll({
       const el = document.getElementById(id);
       if (!el) return;
       e.preventDefault();
-      lenis.scrollTo(el, { offset: -88 });
+      const navHeight =
+        document.querySelector("header")?.getBoundingClientRect().height ?? 72;
+      const offset = navHeight + 16;
+      lenis.scrollTo(el, {
+        offset: -offset,
+        duration: 1.2,
+      });
       // Keyboard users must land on the target, not just see it.
       el.setAttribute("tabindex", "-1");
       el.focus({ preventScroll: true });

@@ -1,11 +1,12 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { cn } from "@/lib/utils";
 
 const LINKS = [
+  { href: "#top", label: "Home" },
   { href: "#activities", label: "The Experience" },
   { href: "#lineup", label: "Who’s Playing" },
   { href: "#gallery", label: "Festival Moments" },
@@ -15,7 +16,8 @@ const LINKS = [
 export default function Nav() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
-  const [activeSection, setActiveSection] = useState(LINKS[0].href.slice(1));
+  const [activeSection, setActiveSection] = useState("top");
+  const pendingSection = useRef<string | null>(null);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
@@ -25,25 +27,38 @@ export default function Nav() {
   }, []);
 
   // Keep the navigation state aligned with the section currently under the
-  // visitor's reading position rather than relying on the URL hash.
+  // visitor's reading position rather than relying on changing observer
+  // entries, which can report a neighboring section out of order.
   useEffect(() => {
     const sections = LINKS.map((link) => document.getElementById(link.href.slice(1))).filter(
       (section): section is HTMLElement => Boolean(section),
     );
     if (!sections.length) return;
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const visible = entries
-          .filter((entry) => entry.isIntersecting)
-          .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
-        if (visible[0]) setActiveSection(visible[0].target.id);
-      },
-      { rootMargin: "-72px 0px -55% 0px", threshold: [0.1, 0.35, 0.6] },
-    );
+    let frame = 0;
+    const updateActiveSection = () => {
+      frame = 0;
+      const navHeight = document.querySelector("header")?.getBoundingClientRect().height ?? 72;
+      const readingLine = navHeight + 32;
+      const current = sections.reduce((active, section) => {
+        return section.getBoundingClientRect().top <= readingLine ? section : active;
+      }, sections[0]);
+      if (pendingSection.current && current.id !== pendingSection.current) return;
+      pendingSection.current = null;
+      setActiveSection(current.id);
+    };
+    const onScroll = () => {
+      if (!frame) frame = requestAnimationFrame(updateActiveSection);
+    };
 
-    sections.forEach((section) => observer.observe(section));
-    return () => observer.disconnect();
+    updateActiveSection();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+      if (frame) cancelAnimationFrame(frame);
+    };
   }, []);
 
   // Close the sheet on Escape, and lock the page behind it.
@@ -86,6 +101,10 @@ export default function Nav() {
             <li key={l.href}>
               <a
                 href={l.href}
+                onClick={() => {
+                  pendingSection.current = l.href.slice(1);
+                  setActiveSection(l.href.slice(1));
+                }}
                 aria-current={activeSection === l.href.slice(1) ? "page" : undefined}
                 className={cn(
                   "relative text-sm font-bold uppercase tracking-wide transition-colors duration-150 after:absolute after:-bottom-1.5 after:left-0 after:h-[3px] after:rounded-full after:bg-yellow-deep after:transition-[width] after:duration-200 hover:text-yellow-deep",
@@ -160,7 +179,13 @@ export default function Nav() {
                 <li key={l.href} className={l.href === "#register" ? "pt-3" : "border-b border-cream/15"}>
                   <a
                     href={l.href}
-                    onClick={() => setOpen(false)}
+                    onClick={() => {
+                      setOpen(false);
+                      if (l.href !== "#register") {
+                        pendingSection.current = l.href.slice(1);
+                        setActiveSection(l.href.slice(1));
+                      }
+                    }}
                     aria-current={activeSection === l.href.slice(1) ? "page" : undefined}
                     className={cn(
                       "block px-2 py-3.5 text-base font-extrabold uppercase tracking-wide transition-colors duration-150",
