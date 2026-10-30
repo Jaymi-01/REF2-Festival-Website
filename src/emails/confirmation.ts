@@ -14,8 +14,6 @@ import { FESTIVAL } from "@/lib/utils";
 
 export type ConfirmationData = {
   firstName: string;
-  /** Where "view in browser" and the footer links point. */
-  siteUrl: string;
 };
 
 const RED = "#b10008";
@@ -109,8 +107,8 @@ export function renderConfirmationEmail(d: ConfirmationData) {
         You&rsquo;re in, ${escapeHtml(d.firstName)}!
       </p>
       <p style="margin:12px 0 0;font-family:Arial,Helvetica,sans-serif;font-size:16px;line-height:1.55;color:${INK};">
-        Two days of good food, great music, cool games and unforgettable vibes.
-        Entry is free &mdash; we&rsquo;ll see you there.
+        Your registration for Real Essence Festival 2.0 is confirmed.
+        Entry is free.
       </p>
     </td></tr>
 
@@ -142,25 +140,13 @@ export function renderConfirmationEmail(d: ConfirmationData) {
       ${button(calendarUrl(), "Add to calendar", GREEN, "#ffffff")}
     </td></tr>
 
-    <!-- ============ what's on ============ -->
-    <tr><td style="padding:26px 32px 0;">
-      <p style="margin:0 0 12px;font-family:Georgia,'Times New Roman',serif;font-size:20px;font-weight:bold;color:${RED};">
-        What&rsquo;s waiting for you
-      </p>
-      <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%">
-        ${bullet("A &#8358;1,000,000 cooking competition")}
-        ${bullet("Live artistes, DJs and an MC all weekend")}
-        ${bullet("Games, free tasting and goodie bags")}
-      </table>
-    </td></tr>
-
     <!-- ============ keep this email ============ -->
     <tr><td style="padding:26px 32px 0;">
       <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="background:${CREAM};border-radius:12px;">
         <tr><td style="padding:16px 18px;">
           <p style="margin:0;font-family:Arial,Helvetica,sans-serif;font-size:14px;line-height:1.6;color:${INK};">
-            <strong>Keep this email.</strong> Your registration is confirmed.
-            We&rsquo;ll see you at Real Essence Festival 2.0.
+            Keep this email for your records. We&rsquo;ll see you at Real Essence
+            Festival 2.0.
           </p>
         </td></tr>
       </table>
@@ -169,8 +155,7 @@ export function renderConfirmationEmail(d: ConfirmationData) {
     <!-- ============ footer ============ -->
     <tr><td align="center" style="padding:30px 32px 34px;">
       <p style="margin:0 0 6px;font-family:Arial,Helvetica,sans-serif;font-size:13px;line-height:1.6;color:#6b5c47;">
-        Questions? Just reply to this email, or DM us
-        <a href="${d.siteUrl}" style="color:${RED};">@sedaapsupremenoodles</a>.
+        Questions? Just reply to this email.
       </p>
       <p style="margin:0;font-family:Arial,Helvetica,sans-serif;font-size:12px;line-height:1.6;color:#8a7a63;">
         Seedap Supreme Noodles &middot; Plot 4&ndash;6, Block 1, Industrial Opic Estate, Agbara, Ogun State<br />
@@ -197,13 +182,6 @@ function row(label: string, value: string) {
   </tr>`;
 }
 
-function bullet(text: string) {
-  return `<tr>
-    <td width="22" valign="top" style="padding:5px 0;font-family:Arial,Helvetica,sans-serif;font-size:15px;color:${YELLOW};">&#9679;</td>
-    <td valign="top" style="padding:5px 0;font-family:Arial,Helvetica,sans-serif;font-size:15px;line-height:1.5;color:${INK};">${text}</td>
-  </tr>`;
-}
-
 function escapeHtml(s: string) {
   return s
     .replace(/&/g, "&amp;")
@@ -223,11 +201,6 @@ ${FESTIVAL.venue}, ${FESTIVAL.city}
 Free entry.
 
 REGISTRATION: CONFIRMED
-
-What's waiting for you:
-- A N1,000,000 cooking competition
-- Live artistes, DJs and an MC all weekend
-- Games, free tasting and goodie bags
 
 Keep this email for your records.
 
