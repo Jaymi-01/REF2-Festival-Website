@@ -11,10 +11,6 @@ import { asset, cn } from "@/lib/utils";
  */
 const STATIC_DEMO = process.env.NEXT_PUBLIC_STATIC_DEMO === "1";
 
-function demoTicket() {
-  return `REF2-${Math.floor(Math.random() * 36 ** 5).toString(36).toUpperCase().padStart(5, "0")}`;
-}
-
 type Field = "fullName" | "phone" | "email";
 type Errors = Partial<Record<Field, string>>;
 type Status = "idle" | "submitting" | "success" | "error";
@@ -93,7 +89,6 @@ export default function RegisterForm() {
   const [touched, setTouched] = useState<Partial<Record<Field, boolean>>>({});
   const [status, setStatus] = useState<Status>("idle");
   const [serverMsg, setServerMsg] = useState("");
-  const [ticketLabel, setTicketLabel] = useState<string>(""); // pretty, for reading out
   const [emailSent, setEmailSent] = useState(false);
   const [returning, setReturning] = useState(false);
   const cardRef = useRef<HTMLDivElement>(null);
@@ -124,11 +119,8 @@ export default function RegisterForm() {
     setServerMsg("");
     try {
       if (STATIC_DEMO) {
-        // The static preview uses a local ticket so the hosted demo remains
-        // usable without database credentials.
+        // The static preview simulates a successful submission locally.
         await new Promise((r) => setTimeout(r, 850));
-        const demo = demoTicket();
-        setTicketLabel(demo);
         setEmailSent(false);
         setStatus("success");
         requestAnimationFrame(() =>
@@ -159,7 +151,6 @@ export default function RegisterForm() {
       const data = await res.json().catch(() => null);
       if (!res.ok) throw new Error(data?.message ?? "Something went wrong.");
 
-      setTicketLabel(data.ticketDisplay ?? data.ticket);
       setEmailSent(Boolean(data.emailSent));
       setReturning(Boolean(data.alreadyRegistered));
       setStatus("success");
@@ -234,7 +225,6 @@ export default function RegisterForm() {
           {status === "success" ? (
             <SuccessPanel
               key="success"
-              ticketLabel={ticketLabel}
               name={values.fullName}
               returning={returning}
               emailSent={emailSent}
@@ -353,12 +343,10 @@ function Spinner() {
 }
 
 function SuccessPanel({
-  ticketLabel,
   name,
   returning,
   emailSent,
 }: {
-  ticketLabel: string;
   name: string;
   returning: boolean;
   emailSent: boolean;
@@ -386,10 +374,10 @@ function SuccessPanel({
       </h2>
       <p className="mx-auto mt-2 max-w-[34ch] text-pretty text-[15px] font-semibold leading-relaxed text-ink/80">
         {returning
-          ? "We already had you on the list — here's the same ticket again."
+          ? "We already had you on the guest list."
           : emailSent
             ? "Save the date — 7–8 November 2026 at Ikeja City Mall, from 9am. Check your inbox for the details."
-            : "Save the date — 7–8 November 2026 at Ikeja City Mall, from 9am. Your ticket is ready below."}
+            : "Save the date — 7–8 November 2026 at Ikeja City Mall, from 9am. Your registration is confirmed."}
       </p>
       {STATIC_DEMO && (
         <p className="mx-auto mt-2 max-w-[36ch] text-[12px] font-bold uppercase tracking-wide text-red/80">
@@ -397,7 +385,6 @@ function SuccessPanel({
         </p>
       )}
 
-      {/* ticket stub */}
       <motion.div
         initial={{ rotate: -6, y: 18, opacity: 0 }}
         animate={{ rotate: -2, y: 0, opacity: 1 }}
@@ -413,12 +400,8 @@ function SuccessPanel({
             aria-hidden="true"
             className="absolute -right-3 top-1/2 h-6 w-6 -translate-y-1/2 rounded-full bg-cream"
           />
-          <p className="text-[10px] font-extrabold uppercase tracking-[0.18em] text-ink/60">
-            Real Essence Festival 2.0 · Admit one
-          </p>
-
-          <p className="font-display mt-2 text-center text-xl tracking-wider text-red">
-            {ticketLabel}
+          <p className="font-display text-center text-xl tracking-wider text-red">
+            Registration confirmed
           </p>
           <p className="mt-1 text-center text-[11px] font-bold uppercase tracking-wider text-green">
             Ikeja City Mall · 9am · Free
