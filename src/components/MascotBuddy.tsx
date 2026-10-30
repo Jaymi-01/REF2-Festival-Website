@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
-import { AnimatePresence, motion, useMotionValue, useSpring } from "motion/react";
+import { AnimatePresence, motion } from "motion/react";
 import { useReducedMotion } from "@/lib/useReducedMotion";
 
 /** Mr Supreme pops up after you've scrolled a while, and reacts to the cursor. */
@@ -24,26 +24,12 @@ export default function MascotBuddy() {
   const [partyMode, setPartyMode] = useState(false);
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  // Cursor-reactive lean
-  const lean = useMotionValue(0);
-  const leanS = useSpring(lean, { stiffness: 140, damping: 18 });
-
   useEffect(() => {
     const onScroll = () => setVisible(window.scrollY > SCROLL_TOP_AT);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
-
-  useEffect(() => {
-    if (reduced) return;
-    const onMove = (e: PointerEvent) => {
-      const dx = e.clientX - window.innerWidth;
-      lean.set(Math.max(-14, Math.min(0, dx / 60)));
-    };
-    window.addEventListener("pointermove", onMove, { passive: true });
-    return () => window.removeEventListener("pointermove", onMove);
-  }, [lean, reduced]);
 
   useEffect(() => () => void (timer.current && clearTimeout(timer.current)), []);
 
@@ -113,11 +99,22 @@ export default function MascotBuddy() {
           <motion.button
             type="button"
             onClick={onTap}
-            style={{ rotate: reduced ? 0 : leanS }}
             whileHover={reduced ? undefined : { scale: 1.08, y: -6 }}
             whileTap={{ scale: 0.92 }}
-            animate={partyMode && !reduced ? { rotate: [0, -12, 12, -12, 0] } : undefined}
-            transition={{ type: "spring", stiffness: 300, damping: 16 }}
+            animate={
+              partyMode && !reduced
+                ? { rotate: [0, -12, 12, -12, 0] }
+                : reduced
+                  ? undefined
+                  : { y: [0, -4, 0], rotate: [0, 1.5, 0] }
+            }
+            transition={
+              partyMode && !reduced
+                ? { duration: 0.8, ease: "easeInOut" }
+                : reduced
+                  ? { type: "spring", stiffness: 300, damping: 16 }
+                  : { duration: 3, repeat: Infinity, ease: "easeInOut" }
+            }
             className="relative w-[clamp(56px,11vw,86px)] origin-bottom cursor-pointer"
           >
             <span className="sr-only">
