@@ -10,18 +10,12 @@ import { FESTIVAL } from "@/lib/utils";
  *   - no flexbox, no grid, no custom fonts, no background-image
  *   - max width 600px, the safe column for Outlook and mobile alike
  *   - a bulletproof (VML) button so Outlook still shows a filled shape
- *   - total weight under 102KB, or Gmail clips the message and hides the QR
- *
- * IMAGES ARE BLOCKED BY DEFAULT in most clients, so the QR can never be the
- * only way in. The ticket number is set in large live text directly beneath
- * it, and the scanner has a manual-entry mode that takes exactly that string.
+ *   - total weight under 102KB, so the message remains reliable in email clients
  * ========================================================================= */
 
 export type ConfirmationData = {
   firstName: string;
   ticket: string;
-  /** Absolute URL to the QR PNG, e.g. https://site/api/ticket/ABC/qr.png */
-  qrUrl: string;
   /** Where "view in browser" and the footer links point. */
   siteUrl: string;
 };
@@ -39,7 +33,7 @@ function calendarUrl() {
     action: "TEMPLATE",
     text: "Real Essence Festival 2.0",
     dates: `${fmt(FESTIVAL.startsAt)}/${fmt(FESTIVAL.endsAt)}`,
-    details: "Good food. Great music. Cool games. Bring your ticket QR.",
+    details: "Good food. Great music. Cool games. See you at the festival.",
     location: `${FESTIVAL.venue}, ${FESTIVAL.city}, Nigeria`,
   });
   return `https://calendar.google.com/calendar/render?${params}`;
@@ -131,13 +125,8 @@ export function renderConfirmationEmail(d: ConfirmationData) {
             Admit one &middot; show at the gate
           </p>
 
-          <!-- QR. Images are blocked by default in most clients, so the ticket
-               number beneath it is the real fallback, not a nicety. -->
-          <img src="${d.qrUrl}" width="200" height="200" alt="QR code for ticket ${pretty}"
-               style="display:block;margin:0 auto;width:200px;height:200px;border:0;outline:none;text-decoration:none;background:#ffffff;" />
-
-          <p style="margin:16px 0 2px;font-family:Arial,Helvetica,sans-serif;font-size:11px;font-weight:bold;letter-spacing:2px;text-transform:uppercase;color:#7a6a52;">
-            Can&rsquo;t see the code? Read this out instead
+          <p style="margin:0 0 2px;font-family:Arial,Helvetica,sans-serif;font-size:11px;font-weight:bold;letter-spacing:2px;text-transform:uppercase;color:#7a6a52;">
+            Your ticket reference
           </p>
           <p style="margin:0 0 18px;font-family:'Courier New',Courier,monospace;font-size:26px;line-height:1.2;font-weight:bold;letter-spacing:3px;color:${RED};">
             ${pretty}
@@ -176,9 +165,8 @@ export function renderConfirmationEmail(d: ConfirmationData) {
       <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="background:${CREAM};border-radius:12px;">
         <tr><td style="padding:16px 18px;">
           <p style="margin:0;font-family:Arial,Helvetica,sans-serif;font-size:14px;line-height:1.6;color:${INK};">
-            <strong>Keep this email.</strong> One entry per ticket &mdash; once it&rsquo;s
-            scanned it can&rsquo;t be used again, so don&rsquo;t forward it on. No signal at the gate?
-            The team can type in your ticket number.
+            <strong>Keep this email.</strong> Your ticket reference is included above
+            for your records. Please have it available when you arrive.
           </p>
         </td></tr>
       </table>
@@ -241,15 +229,14 @@ ${FESTIVAL.venue}, ${FESTIVAL.city}
 Free entry.
 
 YOUR TICKET: ${formatTicket(d.ticket)}
-Show the QR code in this email at the gate, or read out the ticket number above.
+Keep this ticket reference available when you arrive.
 
 What's waiting for you:
 - A N1,000,000 cooking competition
 - Live artistes, DJs and an MC all weekend
 - Games, free tasting and goodie bags
 
-Keep this email. One entry per ticket — once it's scanned it can't be used
-again, so please don't forward it on.
+Keep this email and your ticket reference for your records.
 
 Add to calendar: ${calendarUrl()}
 
