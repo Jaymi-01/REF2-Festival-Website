@@ -5,10 +5,10 @@ import { motion } from "motion/react";
 import { doodleUrl } from "@/lib/doodle";
 
 const SOCIALS = [
-  { id: "social-tiktok", label: "TikTok", href: "https://www.tiktok.com/@sedaapsupremenoodles" },
-  { id: "social-instagram", label: "Instagram", href: "https://www.instagram.com/sedaapsupremenoodles" },
-  { id: "social-x", label: "X", href: "https://x.com/sedaapsupreme" },
-  { id: "social-facebook", label: "Facebook", href: "https://www.facebook.com/sedaapsupremenoodles" },
+  { id: "social-tiktok", label: "TikTok", href: "https://vm.tiktok.com/ZS9ymK85pcGNe-5yMOW/" },
+  { id: "social-instagram", label: "Instagram", href: "https://www.instagram.com/supremenoodlesng?cplk=MTgzaG44cDlwZTk1dQ==" },
+  { id: "social-x", label: "X", href: "https://x.com/SSupremeNoodles" },
+  { id: "social-facebook", label: "Facebook", href: "https://www.facebook.com/share/1Taj2S1UCR/" },
   { id: "social-youtube", label: "YouTube", href: "https://www.youtube.com/@sedaapsupremenoodles" },
 ];
 
