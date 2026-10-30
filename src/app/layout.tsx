@@ -75,7 +75,8 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       lang="en-NG"
       className={`${display.variable} ${sans.variable} h-full antialiased`}
     >
-      <body className="min-h-full">
+      {/* Browser extensions may add attributes before React hydrates the body. */}
+      <body className="min-h-full" suppressHydrationWarning>
         <a
           href="#register"
           className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[200] focus:rounded-full focus:bg-yellow-deep focus:px-5 focus:py-3 focus:font-bold focus:text-ink"
