@@ -93,7 +93,6 @@ export default function RegisterForm() {
   const [touched, setTouched] = useState<Partial<Record<Field, boolean>>>({});
   const [status, setStatus] = useState<Status>("idle");
   const [serverMsg, setServerMsg] = useState("");
-  const [ticket, setTicket] = useState<string>("");      // raw, for the QR URL
   const [ticketLabel, setTicketLabel] = useState<string>(""); // pretty, for reading out
   const [emailSent, setEmailSent] = useState(false);
   const [returning, setReturning] = useState(false);
@@ -129,7 +128,6 @@ export default function RegisterForm() {
         // usable without database credentials.
         await new Promise((r) => setTimeout(r, 850));
         const demo = demoTicket();
-        setTicket("");
         setTicketLabel(demo);
         setEmailSent(false);
         setStatus("success");
@@ -161,7 +159,6 @@ export default function RegisterForm() {
       const data = await res.json().catch(() => null);
       if (!res.ok) throw new Error(data?.message ?? "Something went wrong.");
 
-      setTicket(data.ticket);
       setTicketLabel(data.ticketDisplay ?? data.ticket);
       setEmailSent(Boolean(data.emailSent));
       setReturning(Boolean(data.alreadyRegistered));
@@ -237,7 +234,6 @@ export default function RegisterForm() {
           {status === "success" ? (
             <SuccessPanel
               key="success"
-              ticket={ticket}
               ticketLabel={ticketLabel}
               name={values.fullName}
               returning={returning}
@@ -357,13 +353,11 @@ function Spinner() {
 }
 
 function SuccessPanel({
-  ticket,
   ticketLabel,
   name,
   returning,
   emailSent,
 }: {
-  ticket: string;
   ticketLabel: string;
   name: string;
   returning: boolean;
@@ -422,23 +416,6 @@ function SuccessPanel({
           <p className="text-[10px] font-extrabold uppercase tracking-[0.18em] text-ink/60">
             Real Essence Festival 2.0 · Admit one
           </p>
-
-          {/* The same QR the gate scans. Shown here so anyone can screenshot it
-              straight away rather than hunting for the email on the day. */}
-          {ticket && (
-            // A plain <img>, not next/image: this PNG is generated per request
-            // by /api/ticket/[ticket]/qr.png, so there is nothing for the image
-            // optimiser to pre-size or cache, and routing it through the custom
-            // loader would rewrite a path that only exists on the server.
-            // eslint-disable-next-line @next/next/no-img-element
-            <img
-              src={`/api/ticket/${ticket}/qr.png`}
-              alt={`QR code for ticket ${ticketLabel}`}
-              width={150}
-              height={150}
-              className="mx-auto mt-2 h-[150px] w-[150px] rounded-md bg-white p-1.5"
-            />
-          )}
 
           <p className="font-display mt-2 text-center text-xl tracking-wider text-red">
             {ticketLabel}
