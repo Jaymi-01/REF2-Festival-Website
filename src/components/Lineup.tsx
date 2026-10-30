@@ -12,6 +12,7 @@ const SLOTS = [
     role: "Music Performance - Rybeena",
     hint: "Live performance",
     image: "/line-ups/Rybeena.jpeg",
+    date: "(Performing - 8th November)",
   },
   { role: "DJ", hint: "Decks all day" },
   { role: "MC", hint: "Keeping it moving" },
@@ -19,6 +20,7 @@ const SLOTS = [
     role: "Music Performance - T. I. Blaze",
     hint: "Live performance",
     image: "/line-ups/T. I. Blaze.PNG",
+    date: "(Performing - 7th November)",
   },
   { role: "Guest", hint: "Surprise drop-in" },
   { role: "Guest", hint: "Surprise drop-in" },
@@ -105,9 +107,16 @@ export default function Lineup() {
                 </div>
 
                 <div className="flex items-center justify-between gap-2 border-t-[3px] border-cream/25 px-4 py-3">
-                  <h3 className="min-w-0 font-display text-[clamp(0.85rem,2vw,1.35rem)] leading-tight text-cream">
-                    {s.role}
-                  </h3>
+                  <div className="min-w-0 text-center">
+                    <h3 className="font-display text-[clamp(0.85rem,2vw,1.35rem)] leading-tight text-cream">
+                      {s.role}
+                    </h3>
+                    {s.date && (
+                      <p className="mt-1 text-[10px] font-extrabold uppercase tracking-[0.12em] text-yellow-deep">
+                        {s.date}
+                      </p>
+                    )}
+                  </div>
                   {!s.image && (
                     <span className="rounded-full bg-yellow-deep/90 px-2.5 py-1 text-[10px] font-extrabold uppercase tracking-wider text-ink">
                       TBA
