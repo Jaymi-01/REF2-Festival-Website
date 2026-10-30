@@ -19,7 +19,6 @@ export async function GET(request: Request) {
   const data = {
     firstName: url.searchParams.get("name") ?? "Ada",
     ticket: (url.searchParams.get("ticket") ?? "A7K2M9XP").toUpperCase(),
-    qrUrl: url.searchParams.get("qr") ?? `${url.origin}/api/email/preview/sample-qr.png`,
     siteUrl: url.origin,
   };
 
