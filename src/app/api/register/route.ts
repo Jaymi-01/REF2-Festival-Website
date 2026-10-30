@@ -6,9 +6,7 @@ import { sendConfirmationEmail } from "@/lib/email";
 /* ===========================================================================
  * REGISTRATION
  *
- * Persists the registrant, issues a ticket, and returns it. The ticket's QR
- * is served separately from /api/ticket/<ticket>/qr.png so this response stays
- * small and the image can be cached.
+ * Persists the registrant, issues a ticket reference, and returns it.
  *
  * Re-registering with an email we already have returns the ORIGINAL ticket
  * rather than issuing a second one — otherwise one person could mint tickets
@@ -168,28 +166,8 @@ export async function POST(request: Request) {
   }
 
   /* -------------------------------------------------------------------------
-   * Confirmation emails are sent after the registration is safely saved.
-   *
-   * The template is built and tested in src/emails/confirmation.ts and you can
-   * The template is built and tested in src/emails/confirmation.ts and can be
-   * previewed at /api/email/preview.
-   *
-   *   import { renderConfirmationEmail, renderConfirmationText,
-   *            CONFIRMATION_SUBJECT } from "@/emails/confirmation";
-   *   const origin = new URL(request.url).origin;
-   *   await sendEmail({
-   *     to: email,
-   *     subject: CONFIRMATION_SUBJECT,
-   *     html: renderConfirmationEmail({
-   *       firstName, ticket: saved.ticket,
-   *       qrUrl: `${origin}/api/ticket/${saved.ticket}/qr.png`,
-   *       siteUrl: origin,
-   *     }),
-   *     text: renderConfirmationText({ ... }),
-   *   });
-   *
-   * Send it in a background task (or a queue) so a slow provider never holds
-   * up this response — the registrant already has their ticket on screen.
+   * Confirmation emails are sent after the registration is safely saved. A
+   * provider outage must not discard a valid registration.
    * ---------------------------------------------------------------------- */
 
   // Send after the ticket is saved. A provider outage must not discard a
@@ -201,7 +179,6 @@ export async function POST(request: Request) {
       firstName,
       email,
       ticket: saved.ticket,
-      qrUrl: origin + "/api/ticket/" + saved.ticket + "/qr.png",
       siteUrl: origin,
     });
   } catch (error) {
