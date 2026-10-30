@@ -71,7 +71,7 @@ const shot = (p, n) => p.screenshot({ path: `${OUT}/${n}.png` });
   await page.route("**/api/register", (route) =>
     route.fulfill({
       status: 201,
-      json: { ok: true, ticket: "A7K2M9XP", ticketDisplay: "REF2-A7K2 M9XP" },
+      json: { ok: true, emailSent: false },
     }),
   );
   await page.locator("input[name=fullName]").fill("Ada Obi");
@@ -80,7 +80,6 @@ const shot = (p, n) => p.screenshot({ path: `${OUT}/${n}.png` });
   await page.getByRole("button", { name: "Submit" }).click();
   await page.waitForTimeout(2400);
   await shot(page, "04-form-success");
-  console.log("ticket shown:", (await page.locator("text=/REF2-/").first().textContent())?.trim());
   await page.close();
 }
 
