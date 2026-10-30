@@ -7,16 +7,15 @@ import {
 type ConfirmationEmail = {
   firstName: string;
   email: string;
-  ticket: string;
   siteUrl: string;
 };
 
 /**
- * Sends the ticket confirmation through Resend's HTTP API.
+ * Sends the registration confirmation through Resend's HTTP API.
  *
  * Email configuration is optional while the site is being set up. A missing
  * key skips delivery, and a provider failure is logged without invalidating a
- * registration that has already been saved and ticketed.
+ * registration that has already been saved.
  */
 export async function sendConfirmationEmail(data: ConfirmationEmail) {
   const apiKey = process.env.RESEND_API_KEY;
