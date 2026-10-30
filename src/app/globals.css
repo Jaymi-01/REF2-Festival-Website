@@ -33,6 +33,13 @@ html {
   -webkit-text-size-adjust: 100%;
 }
 
+/* Keep hash targets clear of the fixed navigation bar when native scrolling
+   is used, and keep the same visual landing point as the Lenis handler. */
+main[id],
+section[id] {
+  scroll-margin-block-start: calc(var(--nav-h) + 16px);
+}
+
 body {
   background: var(--color-red);
   color: var(--color-cream);
