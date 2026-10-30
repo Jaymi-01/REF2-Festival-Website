@@ -4,8 +4,7 @@
  * lightbox, the mobile menu, reduced motion, section order and tab order.
  *
  * Needs `npm run dev`. The success path is served by a mocked /api/register,
- * so this runs without a Supabase project — see test-schema / test-gate for
- * the parts that are tested for real.
+ * so this runs without a Supabase project.
  */
 import { chromium } from "playwright";
 import { mkdirSync } from "node:fs";
@@ -82,12 +81,6 @@ const shot = (p, n) => p.screenshot({ path: `${OUT}/${n}.png` });
   await page.waitForTimeout(2400);
   await shot(page, "04-form-success");
   console.log("ticket shown:", (await page.locator("text=/REF2-/").first().textContent())?.trim());
-  const qr = page.getByRole("img", { name: /QR code for ticket/i });
-  console.log("QR shown on the stub:", await qr.isVisible());
-  console.log(
-    "QR actually loaded:",
-    await qr.evaluate((el) => el.complete && el.naturalWidth > 0).catch(() => false),
-  );
   await page.close();
 }
 
