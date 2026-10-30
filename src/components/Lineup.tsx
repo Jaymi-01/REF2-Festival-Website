@@ -9,6 +9,12 @@ import { motion } from "motion/react";
  */
 const SLOTS = [
   {
+    role: "Music Performance - T. I. Blaze",
+    hint: "Live performance",
+    image: "/line-ups/T. I. Blaze.PNG",
+    date: "(Performing - 7th November)",
+  },
+  {
     role: "Music Performance - Rybeena",
     hint: "Live performance",
     image: "/line-ups/Rybeena.jpeg",
@@ -16,12 +22,6 @@ const SLOTS = [
   },
   { role: "DJ", hint: "Decks all day" },
   { role: "MC", hint: "Keeping it moving" },
-  {
-    role: "Music Performance - T. I. Blaze",
-    hint: "Live performance",
-    image: "/line-ups/T. I. Blaze.PNG",
-    date: "(Performing - 7th November)",
-  },
   { role: "Guest", hint: "Surprise drop-in" },
   { role: "Guest", hint: "Surprise drop-in" },
 ];
