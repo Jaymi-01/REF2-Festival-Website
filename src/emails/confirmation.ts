@@ -1,4 +1,3 @@
-import { formatTicket } from "@/lib/ticket";
 import { FESTIVAL } from "@/lib/utils";
 
 /* ===========================================================================
@@ -15,7 +14,6 @@ import { FESTIVAL } from "@/lib/utils";
 
 export type ConfirmationData = {
   firstName: string;
-  ticket: string;
   /** Where "view in browser" and the footer links point. */
   siteUrl: string;
 };
@@ -59,8 +57,7 @@ function button(href: string, label: string, bg: string, fg: string) {
 }
 
 export function renderConfirmationEmail(d: ConfirmationData) {
-  const pretty = formatTicket(d.ticket);
-  const preheader = `You're in. Ticket ${pretty} — show this at the gate on ${FESTIVAL.dateLabel.replace(/ /g, " ")}.`;
+  const preheader = `You're registered for Real Essence Festival 2.0 on ${FESTIVAL.dateLabel.replace(/ /g, " ")}.`;
 
   return `<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
@@ -113,23 +110,20 @@ export function renderConfirmationEmail(d: ConfirmationData) {
       </p>
       <p style="margin:12px 0 0;font-family:Arial,Helvetica,sans-serif;font-size:16px;line-height:1.55;color:${INK};">
         Two days of good food, great music, cool games and unforgettable vibes.
-        Entry is free &mdash; just bring the ticket below.
+        Entry is free &mdash; we&rsquo;ll see you there.
       </p>
     </td></tr>
 
-    <!-- ============ the ticket ============ -->
+    <!-- ============ registration confirmed ============ -->
     <tr><td align="center" style="padding:24px 24px 8px;">
       <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="max-width:420px;border:3px dashed ${RED};border-radius:16px;background:${CREAM};">
         <tr><td align="center" style="padding:22px 20px 6px;">
           <p style="margin:0 0 14px;font-family:Arial,Helvetica,sans-serif;font-size:11px;font-weight:bold;letter-spacing:2px;text-transform:uppercase;color:#7a6a52;">
-            Admit one &middot; show at the gate
+            Registration confirmed
           </p>
 
           <p style="margin:0 0 2px;font-family:Arial,Helvetica,sans-serif;font-size:11px;font-weight:bold;letter-spacing:2px;text-transform:uppercase;color:#7a6a52;">
-            Your ticket reference
-          </p>
-          <p style="margin:0 0 18px;font-family:'Courier New',Courier,monospace;font-size:26px;line-height:1.2;font-weight:bold;letter-spacing:3px;color:${RED};">
-            ${pretty}
+            We&rsquo;ll see you at the festival
           </p>
         </td></tr>
       </table>
@@ -165,8 +159,8 @@ export function renderConfirmationEmail(d: ConfirmationData) {
       <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="background:${CREAM};border-radius:12px;">
         <tr><td style="padding:16px 18px;">
           <p style="margin:0;font-family:Arial,Helvetica,sans-serif;font-size:14px;line-height:1.6;color:${INK};">
-            <strong>Keep this email.</strong> Your ticket reference is included above
-            for your records. Please have it available when you arrive.
+            <strong>Keep this email.</strong> Your registration is confirmed.
+            We&rsquo;ll see you at Real Essence Festival 2.0.
           </p>
         </td></tr>
       </table>
@@ -228,15 +222,14 @@ ${FESTIVAL.dateLabel.replace(/ /g, " ")}, from ${FESTIVAL.doors}
 ${FESTIVAL.venue}, ${FESTIVAL.city}
 Free entry.
 
-YOUR TICKET: ${formatTicket(d.ticket)}
-Keep this ticket reference available when you arrive.
+REGISTRATION: CONFIRMED
 
 What's waiting for you:
 - A N1,000,000 cooking competition
 - Live artistes, DJs and an MC all weekend
 - Games, free tasting and goodie bags
 
-Keep this email and your ticket reference for your records.
+Keep this email for your records.
 
 Add to calendar: ${calendarUrl()}
 
@@ -247,4 +240,4 @@ Plot 4-6, Block 1, Industrial Opic Estate, Agbara, Ogun State
 © 2026 Sedaap Supreme Noodles. All Rights Reserved.`;
 }
 
-export const CONFIRMATION_SUBJECT = "You're in — your Real Essence Festival 2.0 ticket";
+export const CONFIRMATION_SUBJECT = "You're registered — Real Essence Festival 2.0";
