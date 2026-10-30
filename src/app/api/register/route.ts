@@ -1,16 +1,11 @@
 import { NextResponse } from "next/server";
 import { supabase, supabaseConfigured, type Registration } from "@/lib/supabase";
-import { generateTicket, formatTicket } from "@/lib/ticket";
 import { sendConfirmationEmail } from "@/lib/email";
 
 /* ===========================================================================
  * REGISTRATION
  *
- * Persists the registrant, issues a ticket reference, and returns it.
- *
- * Re-registering with an email we already have returns the ORIGINAL ticket
- * rather than issuing a second one — otherwise one person could mint tickets
- * for a whole group by submitting the form repeatedly.
+ * Persists the registrant and sends an optional confirmation email.
  * ========================================================================= */
 
 type Payload = {
@@ -58,8 +53,8 @@ export async function POST(request: Request) {
 
   const fullName = (body.fullName ?? "").trim();
   const nameParts = fullName.split(/\s+/).filter(Boolean);
-  // The database keeps first/last name columns for the gate manifest, so the
-  // public Full Name field is split only at the server boundary.
+  // Keep the database's existing first/last name columns while presenting one
+  // simpler Full Name field to visitors.
   const firstName = nameParts.shift() ?? "";
   const lastName = nameParts.join(" ") || firstName;
   const phone = (body.phone ?? "").trim();
@@ -92,7 +87,7 @@ export async function POST(request: Request) {
 
   const db = supabase();
 
-  // Already registered? Hand back the ticket they already have.
+  // Already registered? Avoid creating a duplicate row.
   const { data: existing } = await db
     .from("registrations")
     .select("*")
@@ -104,61 +99,28 @@ export async function POST(request: Request) {
       {
         ok: true,
         alreadyRegistered: true,
-        ticket: existing.ticket,
-        ticketDisplay: formatTicket(existing.ticket),
         emailSent: false,
       },
       { status: 200 },
     );
   }
 
-  // Issue a new one. The unique index on `ticket` is the real guard against a
-  // collision; retrying a couple of times is cheaper than locking.
-  let saved: Registration | null = null;
-  let lastError: string | null = null;
+  const { data: saved, error } = await db
+    .from("registrations")
+    .insert({ first_name: firstName, last_name: lastName, email, phone })
+    .select()
+    .single<Registration>();
 
-  for (let attempt = 0; attempt < 3 && !saved; attempt++) {
-    const { data, error } = await db
-      .from("registrations")
-      .insert({
-        ticket: generateTicket(),
-        first_name: firstName,
-        last_name: lastName,
-        email,
-        phone,
-      })
-      .select()
-      .single<Registration>();
-
-    if (data) saved = data;
-    else if (error?.code === "23505" && error.message.includes("email")) {
-      // Lost a race with a simultaneous submit of the same email.
-      const { data: raced } = await db
-        .from("registrations")
-        .select("*")
-        .eq("email", email)
-        .maybeSingle<Registration>();
-      if (raced) {
-        return NextResponse.json(
-          {
-            ok: true,
-            alreadyRegistered: true,
-            ticket: raced.ticket,
-            ticketDisplay: formatTicket(raced.ticket),
-            emailSent: false,
-          },
-          { status: 200 },
-        );
-      }
-      lastError = error.message;
-    } else {
-      lastError = error?.message ?? "unknown error";
-      if (error?.code !== "23505") break; // only retry ticket collisions
-    }
+  if (!saved && error?.code === "23505" && error.message.includes("email")) {
+    // Lost a race with a simultaneous submit of the same email.
+    return NextResponse.json(
+      { ok: true, alreadyRegistered: true, emailSent: false },
+      { status: 200 },
+    );
   }
 
   if (!saved) {
-    console.error("[register] insert failed:", lastError);
+    console.error("[register] insert failed:", error?.message ?? "unknown error");
     return NextResponse.json(
       { message: "Couldn't save your registration. Please try again." },
       { status: 500 },
@@ -170,7 +132,7 @@ export async function POST(request: Request) {
    * provider outage must not discard a valid registration.
    * ---------------------------------------------------------------------- */
 
-  // Send after the ticket is saved. A provider outage must not discard a
+  // Send after the registration is saved. A provider outage must not discard a
   // valid registration, so the helper returns false instead of throwing.
   let emailSent = false;
   try {
@@ -178,7 +140,6 @@ export async function POST(request: Request) {
     emailSent = await sendConfirmationEmail({
       firstName,
       email,
-      ticket: saved.ticket,
       siteUrl: origin,
     });
   } catch (error) {
@@ -188,8 +149,6 @@ export async function POST(request: Request) {
   return NextResponse.json(
     {
       ok: true,
-      ticket: saved.ticket,
-      ticketDisplay: formatTicket(saved.ticket),
       emailSent,
     },
     { status: 201 },
