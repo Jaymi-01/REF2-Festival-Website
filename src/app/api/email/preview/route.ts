@@ -18,7 +18,6 @@ export async function GET(request: Request) {
   const url = new URL(request.url);
   const data = {
     firstName: url.searchParams.get("name") ?? "Ada",
-    siteUrl: url.origin,
   };
 
   if (url.searchParams.get("format") === "text") {
