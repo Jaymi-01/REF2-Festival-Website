@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { supabase, supabaseConfigured, type Registration } from "@/lib/supabase";
-import { sendConfirmationEmail } from "@/lib/email";
+import { scheduleEventReminders, sendConfirmationEmail } from "@/lib/email";
 import { sendRegistrationToGoogleSheets } from "@/lib/googleSheets";
 
 /* ===========================================================================
@@ -145,6 +145,13 @@ export async function POST(request: Request) {
     console.error("[register] confirmation email failed:", error);
   }
 
+  let remindersScheduled = false;
+  try {
+    remindersScheduled = await scheduleEventReminders({ firstName, email });
+  } catch (error) {
+    console.error("[register] reminder scheduling failed:", error);
+  }
+
   // Keep the Sheet sync independent from email delivery. A temporary webhook
   // outage must not make a successful registration fail.
   let googleSheetSaved = false;
@@ -163,6 +170,7 @@ export async function POST(request: Request) {
     {
       ok: true,
       emailSent,
+      remindersScheduled,
       googleSheetSaved,
     },
     { status: 201 },
