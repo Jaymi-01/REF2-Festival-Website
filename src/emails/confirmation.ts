@@ -214,3 +214,108 @@ Plot 4-6, Block 1, Industrial Opic Estate, Agbara, Ogun State
 }
 
 export const CONFIRMATION_SUBJECT = "You're registered — Real Essence Festival 2.0";
+
+type ReminderData = {
+  firstName: string;
+  final: boolean;
+};
+
+export function renderEventReminderEmail(d: ReminderData) {
+  const heading = d.final
+    ? "The festival is tomorrow"
+    : "The festival is this week";
+  const message = d.final
+    ? "This is a reminder that Real Essence Festival 2.0 starts tomorrow."
+    : "This is a reminder that Real Essence Festival 2.0 is happening this week.";
+
+  return `<!doctype html>
+<html lang="en">
+<body style="margin:0;padding:24px;background:#fff9ec;color:#1a1207;font-family:Arial,Helvetica,sans-serif;">
+  <div style="max-width:560px;margin:0 auto;background:#ffffff;border:1px solid #eadfca;border-radius:12px;overflow:hidden;">
+    <div style="padding:24px;background:#ffd701;text-align:center;">
+      <p style="margin:0 0 6px;color:#0a4e24;font-size:12px;font-weight:bold;letter-spacing:2px;text-transform:uppercase;">Sedaap Supreme Noodles</p>
+      <h1 style="margin:0;color:#b10008;font-family:Georgia,'Times New Roman',serif;font-size:28px;">Real Essence Festival 2.0</h1>
+    </div>
+    <div style="padding:30px 28px;">
+      <p style="margin:0;color:#0a4e24;font-family:Georgia,'Times New Roman',serif;font-size:25px;font-weight:bold;">${heading}, ${escapeHtml(d.firstName)}.</p>
+      <p style="margin:16px 0 0;font-size:16px;line-height:1.6;">${message}</p>
+      <table role="presentation" cellpadding="0" cellspacing="0" style="margin-top:22px;width:100%;font-size:15px;line-height:1.6;">
+        ${row("When", `${FESTIVAL.dateLabel.replace(/Â /g, " ")}, from ${FESTIVAL.doors}`)}
+        ${row("Where", `${FESTIVAL.venue}, ${FESTIVAL.city}`)}
+        ${row("Entry", "Free")}
+      </table>
+      <p style="margin:24px 0 0;font-size:14px;line-height:1.6;color:#6b5c47;">Keep this email for your records. Questions? Reply to this email.</p>
+    </div>
+  </div>
+</body>
+</html>`;
+}
+
+export function renderEventReminderText(d: ReminderData) {
+  const heading = d.final
+    ? "The festival is tomorrow"
+    : "The festival is this week";
+
+  return `${heading}, ${d.firstName}.
+
+REAL ESSENCE FESTIVAL 2.0
+${FESTIVAL.dateLabel.replace(/Â /g, " ")}, from ${FESTIVAL.doors}
+${FESTIVAL.venue}, ${FESTIVAL.city}
+Free entry.
+
+Keep this email for your records. Questions? Reply to this email.`;
+}
+
+/* duplicate reminder block follows
+type ReminderData = {
+  firstName: string;
+  final: boolean;
+};
+
+export function renderEventReminderEmail(d: ReminderData) {
+  const heading = d.final
+    ? "The festival is tomorrow"
+    : "The festival is this week";
+  const message = d.final
+    ? "This is a reminder that Real Essence Festival 2.0 starts tomorrow."
+    : "This is a reminder that Real Essence Festival 2.0 is happening this week.";
+
+  return `<!doctype html>
+<html lang="en">
+<body style="margin:0;padding:24px;background:#fff9ec;color:#1a1207;font-family:Arial,Helvetica,sans-serif;">
+  <div style="max-width:560px;margin:0 auto;background:#ffffff;border:1px solid #eadfca;border-radius:12px;overflow:hidden;">
+    <div style="padding:24px;background:#ffd701;text-align:center;">
+      <p style="margin:0 0 6px;color:#0a4e24;font-size:12px;font-weight:bold;letter-spacing:2px;text-transform:uppercase;">Sedaap Supreme Noodles</p>
+      <h1 style="margin:0;color:#b10008;font-family:Georgia,'Times New Roman',serif;font-size:28px;">Real Essence Festival 2.0</h1>
+    </div>
+    <div style="padding:30px 28px;">
+      <p style="margin:0;color:#0a4e24;font-family:Georgia,'Times New Roman',serif;font-size:25px;font-weight:bold;">${heading}, ${escapeHtml(d.firstName)}.</p>
+      <p style="margin:16px 0 0;font-size:16px;line-height:1.6;">${message}</p>
+      <table role="presentation" cellpadding="0" cellspacing="0" style="margin-top:22px;width:100%;font-size:15px;line-height:1.6;">
+        ${row("When", `${FESTIVAL.dateLabel.replace(/Â /g, " ")}, from ${FESTIVAL.doors}`)}
+        ${row("Where", `${FESTIVAL.venue}, ${FESTIVAL.city}`)}
+        ${row("Entry", "Free")}
+      </table>
+      <p style="margin:24px 0 0;font-size:14px;line-height:1.6;color:#6b5c47;">Keep this email for your records. Questions? Reply to this email.</p>
+    </div>
+  </div>
+</body>
+</html>`;
+}
+/*
+
+export function renderEventReminderText(d: ReminderData) {
+  const heading = d.final
+    ? "The festival is tomorrow"
+    : "The festival is this week";
+
+  return `${heading}, ${d.firstName}.
+
+REAL ESSENCE FESTIVAL 2.0
+${FESTIVAL.dateLabel.replace(/Â /g, " ")}, from ${FESTIVAL.doors}
+${FESTIVAL.venue}, ${FESTIVAL.city}
+Free entry.
+
+Keep this email for your records. Questions? Reply to this email.`;
+}
+*/
