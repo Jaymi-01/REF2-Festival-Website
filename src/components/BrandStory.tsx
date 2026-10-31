@@ -32,7 +32,7 @@ export default function BrandStory() {
         className="doodle-bg pointer-events-none absolute inset-0 -z-10"
       />
 
-      <div className="mx-auto grid max-w-[1250px] items-center gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:gap-14">
+      <div className="mx-auto grid max-w-[1250px] items-center gap-10 lg:grid-cols-[0.7fr_1.3fr] lg:gap-12">
         {/* mascot */}
         <motion.div
           style={{ y: mascotY }}
@@ -40,7 +40,7 @@ export default function BrandStory() {
           whileInView={{ opacity: 1, x: 0, rotate: 0 }}
           viewport={{ once: true, margin: "-80px" }}
           transition={{ type: "spring", stiffness: 90, damping: 15 }}
-          className="relative mx-auto w-[clamp(180px,34vw,340px)]"
+          className="relative mx-auto w-[clamp(180px,30vw,320px)]"
         >
           <div className="wobble" style={{ ["--wobble-dur" as string]: "5.5s" }}>
             <Image
@@ -53,25 +53,45 @@ export default function BrandStory() {
           </div>
         </motion.div>
 
-        {/* torn-paper statements + product shots */}
-        <div className="relative space-y-2 sm:space-y-4">
-          <TornStatement delay={0}>
-            With Sedaap Supreme Noodles, it&apos;s more than satisfying cravings.
-          </TornStatement>
+        {/* Product pairings: the pack shots share the first message, while the bowl
+            and second message form a separate pairing beneath them. */}
+        <div className="relative space-y-8 sm:space-y-12">
+          <div className="flex flex-col items-center gap-4 sm:flex-row sm:gap-0">
+            <TornStatement delay={0} compact className="w-full max-w-none sm:w-[48%]">
+              With Sedaap Supreme Noodles, it&apos;s more than satisfying cravings.
+            </TornStatement>
 
-          <div className="relative flex flex-wrap items-center justify-center gap-2 sm:gap-4">
-            <motion.div style={{ y: packY }} className="w-[clamp(140px,26vw,260px)]">
-              <div className="bob" style={{ ["--bob-dur" as string]: "6s" }}>
-                <Image
-                  src="/brand/pack-tasty-chicken.webp"
-                  alt="Sedaap Supreme Tasty Chicken pack"
-                  width={700}
-                  height={420}
-                  className="h-auto w-full drop-shadow-xl"
-                />
-              </div>
-            </motion.div>
-            <motion.div style={{ y: bowlY }} className="w-[clamp(140px,26vw,250px)]">
+            <div className="relative z-10 flex w-full items-center sm:-ml-[8%] sm:w-[58%]">
+              <motion.div style={{ y: packY }} className="relative min-w-0 flex-1">
+                <div className="bob" style={{ ["--bob-dur" as string]: "6s" }}>
+                  <Image
+                    src="/brand/pack-tasty-chicken.webp"
+                    alt="Sedaap Supreme Tasty Chicken pack"
+                    width={700}
+                    height={420}
+                    className="h-[clamp(9rem,18vw,14rem)] w-full object-contain drop-shadow-xl"
+                  />
+                </div>
+              </motion.div>
+
+              <motion.div style={{ y: packY }} className="relative z-10 -ml-[18%] min-w-0 flex-1">
+                <div className="rotate-[6deg]">
+                  <div className="bob" style={{ ["--bob-dur" as string]: "6.5s", ["--bob-delay" as string]: "1.1s" }}>
+                    <Image
+                      src="/brand/pack-rich-spices.webp"
+                      alt="Sedaap Supreme Chicken Flavour with Rich Spices pack"
+                      width={700}
+                      height={495}
+                      className="h-[clamp(9rem,18vw,14rem)] w-full object-contain drop-shadow-xl"
+                    />
+                  </div>
+                </div>
+              </motion.div>
+            </div>
+          </div>
+
+          <div className="relative flex min-h-[14rem] items-center sm:min-h-[16rem]">
+            <motion.div style={{ y: bowlY }} className="relative z-10 -mr-[3%] w-[30%] shrink-0 sm:w-[30%]">
               <div className="bob" style={{ ["--bob-dur" as string]: "7s", ["--bob-delay" as string]: "0.6s" }}>
                 <Image
                   src="/brand/noodle-bowl.webp"
@@ -82,22 +102,11 @@ export default function BrandStory() {
                 />
               </div>
             </motion.div>
-            <motion.div style={{ y: packY }} className="w-[clamp(140px,26vw,260px)]">
-              <div className="bob" style={{ ["--bob-dur" as string]: "6.5s", ["--bob-delay" as string]: "1.1s" }}>
-                <Image
-                  src="/brand/pack-rich-spices.webp"
-                  alt="Sedaap Supreme Chicken Flavour with Rich Spices pack"
-                  width={700}
-                  height={495}
-                  className="h-auto w-full drop-shadow-xl"
-                />
-              </div>
-            </motion.div>
-          </div>
 
-          <TornStatement delay={0.15} align="right">
-            It&apos;s about making every moment more exciting.
-          </TornStatement>
+            <TornStatement delay={0.15} className="relative z-0 -ml-[5%] w-[60%] shrink-0 sm:w-[60%]">
+              It&apos;s about making every moment more exciting.
+            </TornStatement>
+          </div>
         </div>
       </div>
     </section>
@@ -108,10 +117,14 @@ function TornStatement({
   children,
   delay,
   align = "left",
+  className = "",
+  compact = false,
 }: {
   children: React.ReactNode;
   delay: number;
   align?: "left" | "right";
+  className?: string;
+  compact?: boolean;
 }) {
   return (
     <motion.blockquote
@@ -119,16 +132,16 @@ function TornStatement({
       whileInView={{ opacity: 1, y: 0, rotate: align === "right" ? 1 : -1 }}
       viewport={{ once: true, margin: "-70px" }}
       transition={{ type: "spring", stiffness: 110, damping: 15, delay }}
-      className={`relative max-w-[32ch] bg-cream px-6 py-5 sm:px-8 sm:py-6 ${
+      className={`relative max-w-[32ch] bg-cream ${compact ? "px-5 py-3 sm:px-6 sm:py-4" : "px-6 py-5 sm:px-8 sm:py-6"} ${
         align === "right" ? "ml-auto" : ""
-      }`}
+      } ${className}`}
       style={{
         // torn top and bottom edges, drawn with clip-path
         clipPath:
           "polygon(0% 7%, 6% 2%, 14% 8%, 23% 1%, 33% 7%, 44% 2%, 55% 8%, 66% 2%, 77% 8%, 88% 2%, 96% 7%, 100% 3%, 100% 93%, 94% 98%, 85% 92%, 74% 98%, 63% 92%, 52% 98%, 41% 92%, 30% 98%, 19% 92%, 9% 98%, 0% 94%)",
       }}
     >
-      <p className="font-display text-[clamp(1.15rem,2.5vw,1.9rem)] leading-tight text-ink">
+      <p className={`font-display ${compact ? "text-[clamp(1rem,1.9vw,1.5rem)]" : "text-[clamp(1.15rem,2.5vw,1.9rem)]"} leading-tight text-ink`}>
         {children}
       </p>
     </motion.blockquote>
