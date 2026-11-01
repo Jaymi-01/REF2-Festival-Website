@@ -87,7 +87,7 @@ export default function Footer() {
           <p className="mt-5 text-[13px] font-semibold text-ink/70">
             7–8 November 2026
             <br />
-            Ikeja City Mall, Lagos · 9am
+            Ikeja City Mall, Lagos · 10am
           </p>
         </div>
       </div>
