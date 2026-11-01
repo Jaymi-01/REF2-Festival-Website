@@ -21,7 +21,7 @@ const YELLOW = "#ffd701";
 const GREEN = "#0a4e24";
 const CREAM = "#fff9ec";
 const INK = "#1a1207";
-const LOGO_URL = "https://realessencefestival.ng/brand/festival-logo.webp";
+const LOGO_URL = "https://www.supremenoodlefest.com/brand/festival-logo.webp";
 
 /** Google Calendar link — one tap to put it in the diary. */
 function calendarUrl() {
