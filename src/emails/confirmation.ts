@@ -21,6 +21,7 @@ const YELLOW = "#ffd701";
 const GREEN = "#0a4e24";
 const CREAM = "#fff9ec";
 const INK = "#1a1207";
+const LOGO_URL = "https://realessencefestival.ng/brand/festival-logo.webp";
 
 /** Google Calendar link — one tap to put it in the diary. */
 function calendarUrl() {
@@ -55,7 +56,7 @@ function button(href: string, label: string, bg: string, fg: string) {
 }
 
 export function renderConfirmationEmail(d: ConfirmationData) {
-  const preheader = `You're registered for Real Essence Festival 2.0 on ${FESTIVAL.dateLabel.replace(/ /g, " ")}.`;
+  const preheader = `Your spot has been saved for ${FESTIVAL.dateLabel.replace(/ /g, " ")}.`;
 
   return `<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
@@ -65,7 +66,7 @@ export function renderConfirmationEmail(d: ConfirmationData) {
 <meta name="x-apple-disable-message-reformatting" />
 <meta name="color-scheme" content="light only" />
 <meta name="supported-color-schemes" content="light only" />
-<title>You're registered — Real Essence Festival 2.0</title>
+<title>Your spot has been saved</title>
 <!--[if mso]><xml><o:OfficeDocumentSettings><o:PixelsPerInch>96</o:PixelsPerInch></o:OfficeDocumentSettings></xml><![endif]-->
 </head>
 <body style="margin:0;padding:0;background:${CREAM};-webkit-text-size-adjust:100%;">
@@ -81,12 +82,7 @@ export function renderConfirmationEmail(d: ConfirmationData) {
 
     <!-- ============ header ============ -->
     <tr><td align="center" bgcolor="${YELLOW}" style="background:${YELLOW};padding:28px 24px 22px;">
-      <p style="margin:0 0 6px;font-family:Georgia,'Times New Roman',serif;font-size:13px;font-weight:bold;letter-spacing:2px;text-transform:uppercase;color:${GREEN};">
-        Sedaap Supreme Noodles presents
-      </p>
-      <p style="margin:0;font-family:Georgia,'Times New Roman',serif;font-size:30px;line-height:1.15;font-weight:bold;color:${RED};">
-        Real Essence Festival 2.0
-      </p>
+      <img src="${LOGO_URL}" alt="Real Essence Festival" width="220" style="display:block;width:220px;max-width:100%;height:auto;margin:0 auto;" />
     </td></tr>
 
     <!-- scalloped edge, drawn with table cells so no image is needed -->
@@ -104,10 +100,10 @@ export function renderConfirmationEmail(d: ConfirmationData) {
     <!-- ============ you're in ============ -->
     <tr><td align="center" style="padding:30px 32px 6px;">
       <p style="margin:0;font-family:Georgia,'Times New Roman',serif;font-size:27px;line-height:1.2;font-weight:bold;color:${GREEN};">
-        You&rsquo;re in, ${escapeHtml(d.firstName)}!
+        Your spot has been saved, ${escapeHtml(d.firstName)}!
       </p>
       <p style="margin:12px 0 0;font-family:Arial,Helvetica,sans-serif;font-size:16px;line-height:1.55;color:${INK};">
-        Your registration for Real Essence Festival 2.0 is confirmed.
+        Your spot at the festival has been saved.
         Entry is free.
       </p>
     </td></tr>
@@ -166,7 +162,7 @@ export function renderConfirmationEmail(d: ConfirmationData) {
   </table>
 
   <p style="margin:16px 0 0;font-family:Arial,Helvetica,sans-serif;font-size:11px;color:#9a8b74;">
-    You received this because you registered for Real Essence Festival 2.0.
+    You received this because you saved a spot for the festival.
   </p>
 
 </td></tr>
@@ -193,9 +189,9 @@ function escapeHtml(s: string) {
 /** Plain-text alternative. Always send both parts — text-only clients and
  *  spam filters both expect it. */
 export function renderConfirmationText(d: ConfirmationData) {
-  return `You're in, ${d.firstName}!
+  return `Your spot has been saved, ${d.firstName}!
 
-REAL ESSENCE FESTIVAL 2.0
+YOUR SPOT HAS BEEN SAVED
 ${FESTIVAL.dateLabel.replace(/ /g, " ")}, from ${FESTIVAL.doors}
 ${FESTIVAL.venue}, ${FESTIVAL.city}
 Free entry.
@@ -213,7 +209,7 @@ Plot 4-6, Block 1, Industrial Opic Estate, Agbara, Ogun State
 © 2026 Sedaap Supreme Noodles. All Rights Reserved.`;
 }
 
-export const CONFIRMATION_SUBJECT = "You're registered — Real Essence Festival 2.0";
+export const CONFIRMATION_SUBJECT = "Your spot has been saved";
 
 type ReminderData = {
   firstName: string;
@@ -233,8 +229,7 @@ export function renderEventReminderEmail(d: ReminderData) {
 <body style="margin:0;padding:24px;background:#fff9ec;color:#1a1207;font-family:Arial,Helvetica,sans-serif;">
   <div style="max-width:560px;margin:0 auto;background:#ffffff;border:1px solid #eadfca;border-radius:12px;overflow:hidden;">
     <div style="padding:24px;background:#ffd701;text-align:center;">
-      <p style="margin:0 0 6px;color:#0a4e24;font-size:12px;font-weight:bold;letter-spacing:2px;text-transform:uppercase;">Sedaap Supreme Noodles</p>
-      <h1 style="margin:0;color:#b10008;font-family:Georgia,'Times New Roman',serif;font-size:28px;">Real Essence Festival 2.0</h1>
+      <img src="${LOGO_URL}" alt="Real Essence Festival" width="220" style="display:block;width:220px;max-width:100%;height:auto;margin:0 auto;" />
     </div>
     <div style="padding:30px 28px;">
       <p style="margin:0;color:#0a4e24;font-family:Georgia,'Times New Roman',serif;font-size:25px;font-weight:bold;">${heading}, ${escapeHtml(d.firstName)}.</p>
