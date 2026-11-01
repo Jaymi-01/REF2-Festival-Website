@@ -49,7 +49,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Real Essence Festival 2.0",
     description:
-      "7–8 November 2026 · Ikeja City Mall · 9am. Delicious Sedaap Supreme Noodles. Great music. Cool games. Register free.",
+      "7–8 November 2026 · Ikeja City Mall · 10am. Delicious Sedaap Supreme Noodles. Great music. Cool games. Register free.",
     url: SITE,
     siteName: "Real Essence Festival 2.0",
     locale: "en_NG",
