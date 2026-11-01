@@ -37,15 +37,12 @@ export default function Lineup() {
           transition={{ duration: 0.4, ease: [0.2, 0, 0, 1] }}
           className="text-center"
         >
-          <p className="text-sm font-extrabold uppercase tracking-[0.22em] text-yellow-deep">
-            The line-up
-          </p>
           <h2 className="font-display mt-2 text-balance text-[clamp(2.2rem,6vw,4rem)] text-cream">
-            Names dropping soon
+            The line-up
           </h2>
           <p className="mx-auto mt-3 max-w-[44ch] text-pretty text-[15px] font-semibold leading-relaxed text-cream/80">
-            We&apos;re still locking in the bill. Register and you&apos;ll be the first to
-            know who&apos;s playing.
+            Get ready for live performances, DJs and unforgettable festival energy across
+            two exciting days.
           </p>
         </motion.div>
 
