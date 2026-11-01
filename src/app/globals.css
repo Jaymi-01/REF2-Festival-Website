@@ -28,6 +28,12 @@
   --nav-h: 72px;
 }
 
+/* Make interactive controls feel clickable everywhere. */
+a,
+button {
+  cursor: pointer;
+}
+
 html {
   scroll-padding-block-start: calc(var(--nav-h) + 16px);
   -webkit-text-size-adjust: 100%;
