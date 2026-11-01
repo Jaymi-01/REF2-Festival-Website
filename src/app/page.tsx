@@ -19,7 +19,7 @@ const eventJsonLd = {
   "@context": "https://schema.org",
   "@type": "Festival",
   name: "Real Essence Festival 2.0",
-  startDate: "2026-11-07T09:00:00+01:00",
+  startDate: "2026-11-07T10:00:00+01:00",
   endDate: "2026-11-08T20:00:00+01:00",
   eventStatus: "https://schema.org/EventScheduled",
   eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
