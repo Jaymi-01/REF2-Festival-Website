@@ -369,15 +369,15 @@ function SuccessPanel({
       </motion.div>
 
       <h2 className="font-display mt-4 text-[clamp(1.8rem,4.6vw,2.5rem)] text-green">
-        {returning ? "You're already in" : "You're in"}
+        Your spot has been saved
         {name ? `, ${name}` : ""}!
       </h2>
       <p className="mx-auto mt-2 max-w-[34ch] text-pretty text-[15px] font-semibold leading-relaxed text-ink/80">
         {returning
           ? "We already had you on the guest list."
           : emailSent
-            ? "Save the date — 7–8 November 2026 at Ikeja City Mall, from 9am. Check your inbox for the details."
-            : "Save the date — 7–8 November 2026 at Ikeja City Mall, from 9am. Your registration is confirmed."}
+            ? "Save the date — 7–8 November 2026 at Ikeja City Mall, from 10am. Check your inbox for the details."
+            : "Save the date — 7–8 November 2026 at Ikeja City Mall, from 10am. Your registration is confirmed."}
       </p>
       {STATIC_DEMO && (
         <p className="mx-auto mt-2 max-w-[36ch] text-[12px] font-bold uppercase tracking-wide text-red/80">
@@ -404,7 +404,7 @@ function SuccessPanel({
             Registration confirmed
           </p>
           <p className="mt-1 text-center text-[11px] font-bold uppercase tracking-wider text-green">
-            Ikeja City Mall · 9am · Free
+            Ikeja City Mall · 10am · Free
           </p>
         </div>
       </motion.div>
