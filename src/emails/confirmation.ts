@@ -21,7 +21,7 @@ const YELLOW = "#ffd701";
 const GREEN = "#0a4e24";
 const CREAM = "#fff9ec";
 const INK = "#1a1207";
-const LOGO_URL = "https://www.supremenoodlefest.com/brand/festival-logo.webp";
+const LOGO_URL = "https://www.supremenoodlefest.com/brand/festival-logo.png";
 
 /** Google Calendar link — one tap to put it in the diary. */
 function calendarUrl() {
@@ -82,7 +82,7 @@ export function renderConfirmationEmail(d: ConfirmationData) {
 
     <!-- ============ header ============ -->
     <tr><td align="center" bgcolor="${YELLOW}" style="background:${YELLOW};padding:28px 24px 22px;">
-      <img src="${LOGO_URL}" alt="Real Essence Festival" width="220" style="display:block;width:220px;max-width:100%;height:auto;margin:0 auto;" />
+      <img src="${LOGO_URL}" alt="Real Essence Festival" width="160" style="display:block;width:160px;max-width:100%;height:auto;margin:0 auto;" />
     </td></tr>
 
     <!-- scalloped edge, drawn with table cells so no image is needed -->
@@ -229,7 +229,7 @@ export function renderEventReminderEmail(d: ReminderData) {
 <body style="margin:0;padding:24px;background:#fff9ec;color:#1a1207;font-family:Arial,Helvetica,sans-serif;">
   <div style="max-width:560px;margin:0 auto;background:#ffffff;border:1px solid #eadfca;border-radius:12px;overflow:hidden;">
     <div style="padding:24px;background:#ffd701;text-align:center;">
-      <img src="${LOGO_URL}" alt="Real Essence Festival" width="220" style="display:block;width:220px;max-width:100%;height:auto;margin:0 auto;" />
+      <img src="${LOGO_URL}" alt="Real Essence Festival" width="160" style="display:block;width:160px;max-width:100%;height:auto;margin:0 auto;" />
     </div>
     <div style="padding:30px 28px;">
       <p style="margin:0;color:#0a4e24;font-family:Georgia,'Times New Roman',serif;font-size:25px;font-weight:bold;">${heading}, ${escapeHtml(d.firstName)}.</p>
