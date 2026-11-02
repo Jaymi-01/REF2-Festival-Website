@@ -82,6 +82,9 @@ export function renderConfirmationEmail(d: ConfirmationData) {
 
     <!-- ============ header ============ -->
     <tr><td align="center" bgcolor="${YELLOW}" style="background:${YELLOW};padding:28px 24px 22px;">
+      <p style="margin:0 0 8px;font-family:Georgia,'Times New Roman',serif;font-size:13px;font-weight:bold;letter-spacing:2px;text-transform:uppercase;color:${GREEN};">
+        Sedaap Supreme Noodles presents
+      </p>
       <img src="${LOGO_URL}" alt="Real Essence Festival" width="160" style="display:block;width:160px;max-width:100%;height:auto;margin:0 auto;" />
     </td></tr>
 
@@ -229,6 +232,7 @@ export function renderEventReminderEmail(d: ReminderData) {
 <body style="margin:0;padding:24px;background:#fff9ec;color:#1a1207;font-family:Arial,Helvetica,sans-serif;">
   <div style="max-width:560px;margin:0 auto;background:#ffffff;border:1px solid #eadfca;border-radius:12px;overflow:hidden;">
     <div style="padding:24px;background:#ffd701;text-align:center;">
+      <p style="margin:0 0 8px;color:#0a4e24;font-size:12px;font-weight:bold;letter-spacing:2px;text-transform:uppercase;">Sedaap Supreme Noodles presents</p>
       <img src="${LOGO_URL}" alt="Real Essence Festival" width="160" style="display:block;width:160px;max-width:100%;height:auto;margin:0 auto;" />
     </div>
     <div style="padding:30px 28px;">
