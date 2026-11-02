@@ -28,7 +28,7 @@ export const ACTIVITIES: Activity[] = [
     title: "Cooking Competition",
     blurb:
       "Show off your culinary skills in an exciting cooking showdown for a chance to win the grand prize of ₦1 million. Join the online challenge for a chance to qualify for the competition.",
-    photo: "/photos/DSC00254.webp",
+    photo: "/photos/cooking.jpeg",
     tilt: 1.8,
     emoji: "🍳",
   },
