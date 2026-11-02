@@ -105,10 +105,6 @@ export function renderConfirmationEmail(d: ConfirmationData) {
       <p style="margin:0;font-family:Georgia,'Times New Roman',serif;font-size:27px;line-height:1.2;font-weight:bold;color:${GREEN};">
         Your spot has been saved, ${escapeHtml(d.firstName)}!
       </p>
-      <p style="margin:12px 0 0;font-family:Arial,Helvetica,sans-serif;font-size:16px;line-height:1.55;color:${INK};">
-        Your spot at the festival has been saved.
-        Entry is free.
-      </p>
     </td></tr>
 
     <!-- ============ registration confirmed ============ -->
@@ -197,7 +193,6 @@ export function renderConfirmationText(d: ConfirmationData) {
 YOUR SPOT HAS BEEN SAVED
 ${FESTIVAL.dateLabel.replace(/ /g, " ")}, from ${FESTIVAL.doors}
 ${FESTIVAL.venue}, ${FESTIVAL.city}
-Free entry.
 
 REGISTRATION: CONFIRMED
 
