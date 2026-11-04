@@ -40,9 +40,9 @@ type EmailMessage = {
 /** Sends through Resend first, then SMTP when Resend is unavailable or rejects. */
 async function sendEmailWithFallback(message: EmailMessage) {
   const apiKey = process.env.RESEND_API_KEY;
-  const from = process.env.EMAIL_FROM;
+  const resendFrom = process.env.EMAIL_FROM;
 
-  if (apiKey && from) {
+  if (apiKey && resendFrom) {
     try {
       const response = await fetch("https://api.resend.com/emails", {
         method: "POST",
@@ -51,7 +51,7 @@ async function sendEmailWithFallback(message: EmailMessage) {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          from,
+          from: resendFrom,
           to: [message.to],
           subject: message.subject,
           html: message.html,
