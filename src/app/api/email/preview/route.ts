@@ -1,4 +1,5 @@
 import { renderConfirmationEmail, renderConfirmationText } from "@/emails/confirmation";
+import { renderBroadcastEmail, renderBroadcastText } from "@/emails/broadcast";
 
 /**
  * Renders the confirmation email so it can be eyeballed, screenshotted and
@@ -19,14 +20,15 @@ export async function GET(request: Request) {
   const data = {
     firstName: url.searchParams.get("name") ?? "Ada",
   };
+  const broadcast = url.searchParams.get("template") === "broadcast";
 
   if (url.searchParams.get("format") === "text") {
-    return new Response(renderConfirmationText(data), {
+    return new Response(broadcast ? renderBroadcastText(data) : renderConfirmationText(data), {
       headers: { "Content-Type": "text/plain; charset=utf-8" },
     });
   }
 
-  return new Response(renderConfirmationEmail(data), {
+  return new Response(broadcast ? renderBroadcastEmail(data) : renderConfirmationEmail(data), {
     headers: { "Content-Type": "text/html; charset=utf-8" },
   });
 }
