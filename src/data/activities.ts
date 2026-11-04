@@ -37,7 +37,7 @@ export const ACTIVITIES: Activity[] = [
     title: "Artiste Performance",
     blurb:
       "Experience electrifying live performances from talented artistes bringing music, energy, and unforgettable vibes to the festival.",
-    photo: "/photos/DSC00175.webp",
+    photo: "/photos/performing.png",
     tilt: -1.6,
     emoji: "🎤",
   },
