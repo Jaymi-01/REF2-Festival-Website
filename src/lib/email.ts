@@ -5,6 +5,11 @@ import {
   renderConfirmationEmail,
   renderConfirmationText,
 } from "@/emails/confirmation";
+import {
+  BROADCAST_SUBJECT,
+  renderBroadcastEmail,
+  renderBroadcastText,
+} from "@/emails/broadcast";
 import nodemailer from "nodemailer";
 
 type ConfirmationEmail = {
@@ -117,6 +122,17 @@ export async function sendEventReminderEmail(data: { firstName: string; email: s
     html: renderEventReminderEmail({ firstName: data.firstName, final: data.final }),
     text: renderEventReminderText({ firstName: data.firstName, final: data.final }),
     label: data.final ? "final reminder" : "event reminder",
+  });
+}
+
+/** Sends one 1.0 audience message through the existing Resend/SMTP fallback. */
+export async function sendBroadcastEmail(email: string) {
+  return sendEmailWithFallback({
+    to: email,
+    subject: BROADCAST_SUBJECT,
+    html: renderBroadcastEmail(),
+    text: renderBroadcastText(),
+    label: "1.0 broadcast",
   });
 }
 
