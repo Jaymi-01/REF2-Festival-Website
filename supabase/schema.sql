@@ -14,13 +14,19 @@ alter table if exists registrations
   drop column if exists checked_in_by,
   drop column if exists scan_count;
 
+alter table if exists registrations
+  add column if not exists reminder_week_sent_at timestamptz,
+  add column if not exists reminder_final_sent_at timestamptz;
+
 create table if not exists registrations (
   id         uuid primary key default gen_random_uuid(),
   first_name text not null,
   last_name  text not null,
   email      text not null,
   phone      text not null,
-  created_at timestamptz not null default now()
+  created_at timestamptz not null default now(),
+  reminder_week_sent_at timestamptz,
+  reminder_final_sent_at timestamptz
 );
 
 create unique index if not exists registrations_email_key
