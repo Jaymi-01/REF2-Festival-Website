@@ -33,3 +33,17 @@ create unique index if not exists registrations_email_key
   on registrations (lower(email));
 
 alter table registrations enable row level security;
+
+-- Private audience for the one-time 1.0 broadcast. The app uses the
+-- service-role key server-side; no browser policy is granted for this table.
+create table if not exists broadcast_contacts (
+  id         uuid primary key default gen_random_uuid(),
+  email      text not null,
+  sent_at    timestamptz,
+  created_at timestamptz not null default now()
+);
+
+create unique index if not exists broadcast_contacts_email_key
+  on broadcast_contacts (lower(email));
+
+alter table broadcast_contacts enable row level security;
