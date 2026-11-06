@@ -11,7 +11,7 @@ export type BroadcastData = {
   unsubscribeUrl?: string;
 };
 
-/** Standalone 1.0 audience broadcast, based on public/template.jpg. */
+/** Standalone 2.0 countdown broadcast. */
 export function renderBroadcastEmail({ unsubscribeUrl = "#" }: BroadcastData = {}) {
   return `<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
@@ -36,25 +36,20 @@ export function renderBroadcastEmail({ unsubscribeUrl = "#" }: BroadcastData = {
           <tr>
             <td style="padding:72px 56px 28px;font-size:21px;line-height:1.42;">
               <p style="margin:0 0 30px;">Hey there,</p>
-              <p style="margin:0 0 30px;font-weight:bold;">Real Essence Festival 2.0 is here!</p>
-              <p style="margin:0 0 30px;">
-                Join us November 7 &amp; 8 at Ikeja City Mall for two days of delicious Sedaap Supreme Noodles, music, games, exciting giveaways and live performances from Rybeena and T.I Blaze.
-              </p>
-              <p style="margin:0 0 30px;">
-                You can also stand a chance to win ₦1 million in our cooking competition!
-              </p>
-              <p style="margin:0 0 30px;">
-                Entry is <strong>FREE</strong> &mdash; but you must register to attend.
-              </p>
-              <p style="margin:0 0 12px;">Don&apos;t wait. Secure your spot now:</p>
+              <p style="margin:0 0 30px;font-weight:bold;">Just 1 DAY TO GO!</p>
+              <p style="margin:0 0 30px;">The countdown is almost over! Real Essence Festival 2.0 kicks off tomorrow, and you don't want to miss the excitement!</p>
+              <p style="margin:0 0 30px;">Join us November 7 &amp; 8 at Ikeja City Mall for two unforgettable days of delicious Sedaap Supreme Noodles, great music, exciting games, amazing giveaways and live performances from <strong>Rybeena and T.I Blaze!</strong></p>
+              <p style="margin:0 0 30px;">And guess what? You could also stand a chance to win <strong>₦1 MILLION in our cooking competition!</strong></p>
+              <p style="margin:0 0 30px;">Date: November 7 &amp; 8, 2026<br />Venue: Ikeja City Mall, Lagos<br />Entry: FREE! Registration is compulsory.<br />Haven't registered yet? There's still time! Secure your spot now.</p>
               <table role="presentation" cellpadding="0" cellspacing="0" border="0" align="center">
                 <tr>
                   <td align="center" bgcolor="${GREEN}" style="border-radius:999px;background:${GREEN};">
-                    <a href="${SITE_URL}" style="display:inline-block;padding:18px 48px;color:#ffffff;font-size:20px;font-weight:bold;text-decoration:none;border-radius:999px;background:${GREEN};">REGISTER HERE</a>
+                    <a href="${SITE_URL}" style="display:inline-block;padding:18px 48px;color:#ffffff;font-size:20px;font-weight:bold;text-decoration:none;border-radius:999px;background:${GREEN};">REGISTER NOW</a>
                   </td>
                 </tr>
               </table>
-              <p style="margin:32px 0 0;">Come hungry. Come ready for fun. Come experience The Real Experience.</p>
+              <p style="margin:32px 0 0;">Already registered? You're all set! No need to register again. Just get ready for two days of food, music and unforgettable fun!</p>
+              <p style="margin:30px 0 0;">The countdown is on. The Real Experience awaits!<br />See you there!</p>
               <p style="margin:30px 0 0;">Team Sedaap Supreme Noodles</p>
             </td>
           </tr>
@@ -75,20 +70,28 @@ export function renderBroadcastText(_data: BroadcastData = {}) {
   void _data;
   return `Hey there,
 
-Real Essence Festival 2.0 is here!
+Just 1 DAY TO GO!
 
-Join us November 7 & 8 at Ikeja City Mall for two days of delicious Sedaap Supreme Noodles, music, games, exciting giveaways and live performances from Rybeena and T.I Blaze.
+The countdown is almost over! Real Essence Festival 2.0 kicks off tomorrow, and you don't want to miss the excitement!
 
-You can also stand a chance to win ₦1 million in our cooking competition!
+Join us November 7 & 8 at Ikeja City Mall for two unforgettable days of delicious Sedaap Supreme Noodles, great music, exciting games, amazing giveaways and live performances from Rybeena and T.I Blaze!
 
-Entry is FREE — but you must register to attend.
+And guess what? You could also stand a chance to win ₦1 MILLION in our cooking competition!
 
-Don't wait. Secure your spot now:
-REGISTER HERE → ${SITE_URL}
+Date: November 7 & 8, 2026
+Venue: Ikeja City Mall, Lagos
+Entry: FREE! Registration is compulsory.
+Haven't registered yet? There's still time! Secure your spot now.
 
-Come hungry. Come ready for fun. Come experience The Real Experience.
+REGISTER NOW: ${SITE_URL}
 
-Team Sedaap Supreme Noodles`;
+Already registered? You're all set! No need to register again. Just get ready for two days of food, music and unforgettable fun!
+
+The countdown is on. The Real Experience awaits!
+See you there!
+
+Team Sedaap Supreme Noodles
+`;
 }
 
-export const BROADCAST_SUBJECT = "You’re invited back to Real Essence Festival 2.0";
+export const BROADCAST_SUBJECT = "1 DAY TO GO! Real Essence Festival 2.0 Is Almost Here!";
