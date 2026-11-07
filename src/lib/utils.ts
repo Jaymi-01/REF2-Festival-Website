@@ -7,7 +7,7 @@ export function cn(...inputs: ClassValue[]) {
 
 /** Festival dates — the one source of truth for every countdown and label. */
 export const FESTIVAL = {
-  startsAt: new Date("2026-11-07T10:00:00+01:00"),
+  startsAt: new Date("2026-11-07T12:00:00+01:00"),
   endsAt: new Date("2026-11-08T20:00:00+01:00"),
   venue: "Ikeja City Mall",
   city: "Lagos",
