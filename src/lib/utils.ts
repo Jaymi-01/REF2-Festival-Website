@@ -11,7 +11,7 @@ export const FESTIVAL = {
   endsAt: new Date("2026-11-08T20:00:00+01:00"),
   venue: "Ikeja City Mall",
   city: "Lagos",
-  doors: "10am",
+  doors: "12pm",
   // Non-breaking spaces hold "7th – 8th," together, so a narrow screen never
   // starts a line with a dangling en dash.
   dateLabel: "November, 7th – 8th, 2026",
