@@ -1,61 +1,162 @@
+
 import { NextResponse } from "next/server";
 import { sendBroadcastEmail } from "@/lib/email";
 import { supabase, supabaseConfigured } from "@/lib/supabase";
 
-const BATCH_SIZE = 100;
+const CAMPAIGN_KEY = "real-essence-2-thank-you";
+const BATCH_SIZE = 10;
+const PAGE_SIZE = 100;
+const DELAY_MS = 2000;
 
-/** Sends one controlled batch of the private 1.0 audience. */
+const sleep = (ms: number) =>
+  new Promise((resolve) => setTimeout(resolve, ms));
+
 export async function POST(request: Request) {
   const expectedSecret = process.env.BROADCAST_CRON_SECRET;
-  const providedSecret = request.headers.get("authorization")?.replace(/^Bearer\s+/i, "");
+  const providedSecret = request.headers
+    .get("authorization")
+    ?.replace(/^Bearer\s+/i, "");
 
   if (!expectedSecret || providedSecret !== expectedSecret) {
-    return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+    return NextResponse.json(
+      { message: "Unauthorized" },
+      { status: 401 }
+    );
   }
 
   if (!supabaseConfigured()) {
-    return NextResponse.json({ message: "Database is not configured." }, { status: 503 });
+    return NextResponse.json(
+      { message: "Database is not configured." },
+      { status: 503 }
+    );
   }
 
   const db = supabase();
-  const { data: contacts, error } = await db
-    .from("broadcast_contacts")
-    .select("id, email")
-    .is("sent_at", null)
-    .order("created_at", { ascending: true })
-    .limit(BATCH_SIZE);
-
-  if (error) {
-    console.error("[broadcast] failed to load contacts:", error.message);
-    return NextResponse.json({ message: "Could not load broadcast contacts." }, { status: 500 });
-  }
-
   let sent = 0;
   let failed = 0;
-  for (const contact of contacts ?? []) {
-    const delivered = await sendBroadcastEmail(contact.email);
-    if (!delivered) {
-      failed += 1;
-      continue;
-    }
+  let skipped = 0;
+  let stopped = false;
 
-    const { error: updateError } = await db
+  // Read contacts in pages so previously processed
+  // contacts do not prevent reaching new recipients.
+  for (let offset = 0; sent < BATCH_SIZE; offset += PAGE_SIZE) {
+    const { data: contacts, error } = await db
       .from("broadcast_contacts")
-      .update({ sent_at: new Date().toISOString() })
-      .eq("id", contact.id)
-      .is("sent_at", null);
+      .select("id, email")
+      .order("created_at", { ascending: true })
+      .order("id", { ascending: true })
+      .range(offset, offset + PAGE_SIZE - 1);
 
-    if (updateError) {
-      failed += 1;
-      console.error("[broadcast] failed to mark contact as sent:", updateError.message);
-      continue;
+    if (error) {
+      console.error("[broadcast] Load failed:", error.message);
+      return NextResponse.json(
+        { message: "Could not load contacts.", sent, failed },
+        { status: 500 }
+      );
     }
-    sent += 1;
+
+    if (!contacts?.length) break;
+
+    for (const contact of contacts) {
+      if (sent >= BATCH_SIZE) break;
+
+      // Claim the recipient for this campaign.
+      // The database UNIQUE constraint prevents
+      // simultaneous requests from claiming the same contact.
+      const { error: claimError } = await db
+        .from("broadcast_campaign_sends")
+        .insert({
+          campaign_key: CAMPAIGN_KEY,
+          contact_id: contact.id,
+        });
+
+      if (claimError) {
+        if (claimError.code === "23505") {
+          skipped++;
+          continue;
+        }
+
+        console.error("[broadcast] Claim failed:", claimError.message);
+        stopped = true;
+        break;
+      }
+
+      let delivered = false;
+
+      try {
+        delivered = await sendBroadcastEmail(contact.email);
+      } catch (error) {
+        console.error("[broadcast] Send error:", error);
+      }
+
+      if (!delivered) {
+        failed++;
+
+        // Release failed claim for a future retry.
+        const { error: releaseError } = await db
+          .from("broadcast_campaign_sends")
+          .delete()
+          .eq("campaign_key", CAMPAIGN_KEY)
+          .eq("contact_id", contact.id)
+          .is("sent_at", null);
+
+        if (releaseError) {
+          console.error(
+            "[broadcast] Claim release failed:",
+            releaseError.message
+          );
+        }
+
+        // Stop rather than hammering a restricted SMTP account.
+        stopped = true;
+        break;
+      }
+
+      const { error: updateError } = await db
+        .from("broadcast_campaign_sends")
+        .update({ sent_at: new Date().toISOString() })
+        .eq("campaign_key", CAMPAIGN_KEY)
+        .eq("contact_id", contact.id)
+        .is("sent_at", null);
+
+      if (updateError) {
+        console.error(
+          "[broadcast] Tracking failed:",
+          updateError.message
+        );
+
+        // Keep the claim to avoid automatically
+        // resending an email that was accepted.
+        stopped = true;
+        break;
+      }
+
+      sent++;
+      console.log(`[broadcast] Thank-you sent: ${sent}`);
+
+      if (sent < BATCH_SIZE) {
+        await sleep(DELAY_MS);
+      }
+    }
+
+    if (stopped || contacts.length < PAGE_SIZE) break;
   }
 
-  return NextResponse.json({ ok: failed === 0, sent, failed, remaining: Math.max((contacts?.length ?? 0) - sent, 0) });
+  return NextResponse.json({
+    campaign: CAMPAIGN_KEY,
+    sent,
+    failed,
+    skipped,
+    stopped,
+    message: stopped
+      ? "Batch stopped. Check logs before retrying."
+      : "Batch completed.",
+  });
 }
 
 export function GET() {
-  return NextResponse.json({ message: "POST with the broadcast secret." }, { status: 405 });
+  return NextResponse.json(
+    { message: "POST with the broadcast secret." },
+    { status: 405 }
+  );
 }
