@@ -4,7 +4,7 @@ import { sendBroadcastEmail } from "@/lib/email";
 import { supabase, supabaseConfigured } from "@/lib/supabase";
 
 const CAMPAIGN_KEY = "real-essence-2-thank-you";
-const BATCH_SIZE = 50;
+const BATCH_SIZE = 100;
 const PAGE_SIZE = 100;
 const DELAY_MS = 2000;
 
