@@ -4,7 +4,6 @@ const YELLOW = "#ffd701";
 const CREAM = "#fff9ec";
 const INK = "#1a1207";
 
-const SITE_URL = "https://www.supremenoodlefest.com/";
 const LOGO_URL =
   "https://www.supremenoodlefest.com/brand/festival-logo.png";
 
@@ -13,131 +12,140 @@ export type BroadcastData = {
   unsubscribeUrl?: string;
 };
 
-/** Standalone Real Essence Festival 2.0 TODAY broadcast. */
+/** Real Essence Festival 2.0 Thank You broadcast. */
 export function renderBroadcastEmail({
-  unsubscribeUrl = "#",
+  unsubscribeUrl,
 }: BroadcastData = {}) {
   return `<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Real Essence Festival 2.0</title>
+  <title>Thank You - Real Essence Festival 2.0</title>
 </head>
+
 <body style="margin:0;padding:0;background:${CREAM};font-family:Arial,Helvetica,sans-serif;color:${INK};-webkit-text-size-adjust:100%;">
+
   <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="background:${CREAM};">
     <tr>
       <td align="center" style="padding:20px 10px;">
+
         <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="600" style="width:100%;max-width:600px;background:#ffffff;">
 
+          <!-- Festival Logo -->
           <tr>
             <td align="center" bgcolor="${YELLOW}" style="background:${YELLOW};padding:20px 24px 24px;">
-              <img src="${LOGO_URL}" alt="Real Essence Festival" width="160" style="display:block;width:160px;max-width:100%;height:auto;margin:0 auto;" />
+              <img
+                src="${LOGO_URL}"
+                alt="Real Essence Festival"
+                width="160"
+                style="display:block;width:160px;max-width:100%;height:auto;margin:0 auto;"
+              />
             </td>
           </tr>
 
+          <!-- Yellow Divider -->
           <tr>
-            <td style="height:18px;background:${YELLOW};font-size:0;line-height:0;">&nbsp;</td>
+            <td style="height:18px;background:${YELLOW};font-size:0;line-height:0;">
+              &nbsp;
+            </td>
           </tr>
 
+          <!-- Thank You Message -->
           <tr>
-            <td style="padding:72px 56px 28px;font-size:21px;line-height:1.42;">
+            <td style="padding:56px 36px 30px;font-size:19px;line-height:1.65;">
 
-              <p style="margin:0 0 30px;">
+              <p style="margin:0 0 28px;">
                 Hey there,
               </p>
 
-              <p style="margin:0 0 30px;font-weight:bold;">
-                The wait is over! Real Essence Festival 2.0 starts TODAY!
+              <p style="margin:0 0 28px;font-size:23px;line-height:1.4;font-weight:bold;color:${GREEN};">
+                What an unforgettable experience!
+              </p>
+
+              <p style="margin:0 0 28px;">
+                A big <strong>THANK YOU</strong> for joining us at the
+                <strong>Real Essence Festival 2.0!</strong>
+              </p>
+
+              <p style="margin:0 0 28px;">
+                From the delicious <strong>Sedaap Supreme Noodles</strong>
+                to the music, games, exciting giveaways, amazing
+                performances and memorable moments, including the
+                <strong>₦1 million win</strong> and
+                <strong>two lucky attendees taking home 55-inch TVs</strong>,
+                you made every moment special.
+              </p>
+
+              <p style="margin:0 0 28px;">
+                Your energy and excitement brought
+                <strong>The Real Experience</strong> to life,
+                and we couldn't have done it without you!
+              </p>
+
+              <p style="margin:0 0 28px;">
+                We hope you had an amazing time, and we can't wait
+                to create more unforgettable memories with you.
               </p>
 
               <p style="margin:0 0 30px;">
-                Join us November 7 &amp; 8 at Ikeja City Mall for two exciting days of delicious Sedaap Supreme Noodles, great music, exciting games, amazing giveaways and live performances from <strong>Rybeena and T.I Blaze!</strong>
+                Until next time, keep enjoying the delicious taste of
+                <strong>Sedaap Supreme Noodles!</strong>
               </p>
 
-              <p style="margin:0 0 30px;">
-                Stand a chance to win <strong>₦1 MILLION in our cooking competition!</strong>
-              </p>
-
-              <p style="margin:0 0 30px;">
-                Date: November 7 &amp; 8, 2026<br />
-                Time: 12pm<br />
-                Venue: Ikeja City Mall, Lagos<br />
-                Entry: FREE! Registration is compulsory.
-              </p>
-
-              <p style="margin:0 0 30px;">
-                Haven't registered yet? There's still time!
-              </p>
-
-              <table role="presentation" cellpadding="0" cellspacing="0" border="0" align="center">
-                <tr>
-                  <td align="center" bgcolor="${GREEN}" style="border-radius:999px;background:${GREEN};">
-                    <a href="${SITE_URL}" style="display:inline-block;padding:18px 48px;color:#ffffff;font-size:20px;font-weight:bold;text-decoration:none;border-radius:999px;background:${GREEN};">
-                      REGISTER NOW
-                    </a>
-                  </td>
-                </tr>
-              </table>
-
-              <p style="margin:32px 0 0;">
-                Already registered? You're all set! We look forward to seeing you there.
-              </p>
-
-              <p style="margin:30px 0 0;">
-                The Real Experience starts today. Don't miss out!
-              </p>
-
-              <p style="margin:30px 0 0;">
-                Team Sedaap Supreme Noodles
+              <p style="margin:0;">
+                With love and appreciation,<br />
+                <strong>Team Sedaap Supreme Noodles</strong>
               </p>
 
             </td>
           </tr>
 
+          <!-- Footer -->
           <tr>
             <td align="center" style="padding:0 28px 30px;color:#6b5c47;font-size:14px;line-height:1.65;">
-              <p style="margin:18px 0 0;font-size:11px;">
-                <a href="${unsubscribeUrl}" style="color:#6b5c47;">Unsubscribe</a>
-              </p>
+              ${
+                unsubscribeUrl
+                  ? `<p style="margin:18px 0 0;font-size:11px;">
+                       <a href="${unsubscribeUrl}" style="color:#6b5c47;">Unsubscribe</a>
+                     </p>`
+                  : ""
+              }
             </td>
           </tr>
 
         </table>
+
       </td>
     </tr>
   </table>
+
 </body>
 </html>`;
 }
 
-export function renderBroadcastText(_data: BroadcastData = {}) {
-  void _data;
-
+/** Plain-text fallback for email clients. */
+export function renderBroadcastText({
+  unsubscribeUrl,
+}: BroadcastData = {}) {
   return `Hey there,
 
-The wait is over! Real Essence Festival 2.0 starts TODAY!
+What an unforgettable experience!
 
-Join us November 7 & 8 at Ikeja City Mall for two exciting days of delicious Sedaap Supreme Noodles, great music, exciting games, amazing giveaways and live performances from Rybeena and T.I Blaze!
+A big THANK YOU for joining us at the Real Essence Festival 2.0!
 
-Stand a chance to win ₦1 MILLION in our cooking competition!
+From the delicious Sedaap Supreme Noodles to the music, games, exciting giveaways, amazing performances and memorable moments, including the ₦1 million win and two lucky attendees taking home 55-inch TVs, you made every moment special.
 
-Date: November 7 & 8, 2026
-Time: 12pm
-Venue: Ikeja City Mall, Lagos
-Entry: FREE! Registration is compulsory.
+Your energy and excitement brought The Real Experience to life, and we couldn't have done it without you!
 
-Haven't registered yet? There's still time!
+We hope you had an amazing time, and we can't wait to create more unforgettable memories with you.
 
-REGISTER NOW: ${SITE_URL}
+Until next time, keep enjoying the delicious taste of Sedaap Supreme Noodles!
 
-Already registered? You're all set! We look forward to seeing you there.
-
-The Real Experience starts today. Don't miss out!
-
+With love and appreciation,
 Team Sedaap Supreme Noodles
-`;
+${unsubscribeUrl ? `\nUnsubscribe: ${unsubscribeUrl}\n` : ""}`;
 }
 
 export const BROADCAST_SUBJECT =
-  "IT'S TODAY! Real Essence Festival 2.0 Is Here.";
+  "THANK YOU FOR MAKING REAL ESSENCE FESTIVAL 2.0 SPECIAL!";
